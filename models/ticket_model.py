@@ -9,5 +9,5 @@ class Ticket(BaseModel):
     id: str
     event_id: str
     user_id: int
-    purchase_date: Field(default_factory=datetime.now())
+    created_at: Field(default_factory=datetime.now())
     ticket_type: TicketType
