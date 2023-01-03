@@ -11,6 +11,7 @@ class Gender(str, Enum):
 	FEMALE: "female"
 
 class User (BaseModel):
+	id: int
 	firstname: str
 	lastname: str
 	age: int
