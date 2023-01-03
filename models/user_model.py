@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, ValidationError
 
 class UserType(str, Enum):
 	STANDARD: "standard"
