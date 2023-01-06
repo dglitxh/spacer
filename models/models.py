@@ -20,3 +20,11 @@ class Ticket(Model):
     ticket_type: fields.CharField(max_length=255)
     created_at: fields.DateTimeField(auto_now_add=True)
     modified_at: fields.DateTimeField(auto_now=True)
+
+class Event(Model):
+    id: fields.IntField()
+    tickets: fields.ForeignKeyField("models.Ticket", related_name="tickets")
+    user_id: fields.ForeignKeyField("models.User", related_name="owner")
+    ticket_type: fields.CharField(max_length=255)
+    created_at: fields.DateTimeField(auto_now_add=True)
+    modified_at: fields.DateTimeField(auto_now=True)
