@@ -10,4 +10,13 @@ class User(Model):
     user_type: fields.CharField()
     gender: fields.CharField()
     password: fields.CharField()
+    created_at: fields.DateTimeField(auto_now_add=True)
+    modified_at: fields.DateTimeField(auto_now=True)
 
+class Ticket(Model):
+    id: fields.IntField()
+    event_id: fields.StringField()
+    user_id: fields.ForeignKeyField("models.User", related_name="owner")
+    ticket_type: fields.CharField(max_length=255)
+    created_at: fields.DateTimeField(auto_now_add=True)
+    modified_at: fields.DateTimeField(auto_now=True)
