@@ -1,9 +1,12 @@
 from typing import Union
-
+from tortoise import Tortoise
 from fastapi import FastAPI
+from db import init_db
+from tortoise import run_async
 
 app = FastAPI()
 
+run_async(init_db())
 
 @app.get("/")
 def read_root():
