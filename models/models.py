@@ -1,39 +1,40 @@
 from tortoise.models import Model
-from tortois import fields
+from tortoise import fields
+
 
 class User(Model):
-    id: fields.IntField()
-    firstname: fields.CharField(max_length=255)
+    id: fields.IntField(pk=True, generated=True)
+    firstname: fields.CharField(max_length=255, null=False)
     lastname: fields.CharField(max_length=255)
     age: fields.IntField()
-    email: fields.CharField(max_length=255)
-    user_type: fields.CharField()
-    gender: fields.CharField()
-    password: fields.CharField()
-    created_at: fields.DateTimeField(auto_now_add=True)
-    modified_at: fields.DateTimeField(auto_now=True)
+    email: fields.CharField(max_length=255, unique=True, null=False)
+    user_type: fields.CharField(max_length=255)
+    gender: fields.CharField(max_length=255)
+    password: fields.CharField(max_length=255, null=False)
+    created_at: fields.DatetimeField(auto_now_add=True)
+    modified_at: fields.DatetimeField(auto_now=True)
 
     class Meta:
         table: "users"
 
 class Ticket(Model):
-    id: fields.IntField()
-    event_id: fields.StringField()
+    id: fields.IntField(pk=True, generated=True)
+    event_id: fields.CharField(max_length=255)
     user_id: fields.ForeignKeyField("models.User", related_name="owner")
     ticket_type: fields.CharField(max_length=255)
-    created_at: fields.DateTimeField(auto_now_add=True)
-    modified_at: fields.DateTimeField(auto_now=True)
+    created_at: fields.DatetimeField(auto_now_add=True)
+    modified_at: fields.DatetimeField(auto_now=True)
 
     class Meta:
         table: "tickets"
 
 class Event(Model):
-    id: fields.IntField()
+    id: fields.IntField(pk=True, generated=True)
     tickets: fields.ForeignKeyField("models.Ticket", related_name="tickets")
     user_id: fields.ForeignKeyField("models.User", related_name="owner")
     ticket_type: fields.CharField(max_length=255)
-    created_at: fields.DateTimeField(auto_now_add=True)
-    modified_at: fields.DateTimeField(auto_now=True)
+    created_at: fields.DatetimeField(auto_now_add=True)
+    modified_at: fields.DatetimeField(auto_now=True)
 
     class Meta:
         table: "events"
