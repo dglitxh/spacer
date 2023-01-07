@@ -13,6 +13,9 @@ class User(Model):
     created_at: fields.DateTimeField(auto_now_add=True)
     modified_at: fields.DateTimeField(auto_now=True)
 
+    class Meta:
+        table: "users"
+
 class Ticket(Model):
     id: fields.IntField()
     event_id: fields.StringField()
@@ -21,6 +24,9 @@ class Ticket(Model):
     created_at: fields.DateTimeField(auto_now_add=True)
     modified_at: fields.DateTimeField(auto_now=True)
 
+    class Meta:
+        table: "tickets"
+
 class Event(Model):
     id: fields.IntField()
     tickets: fields.ForeignKeyField("models.Ticket", related_name="tickets")
@@ -28,3 +34,6 @@ class Event(Model):
     ticket_type: fields.CharField(max_length=255)
     created_at: fields.DateTimeField(auto_now_add=True)
     modified_at: fields.DateTimeField(auto_now=True)
+
+    class Meta:
+        table: "events"
