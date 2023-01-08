@@ -19,7 +19,7 @@ class User(Model):
 
 class Ticket(Model):
     id: fields.IntField(pk=True, generated=True)
-    event_id: fields.CharField(max_length=255)
+    event_id: fields.ForeignKeyField("models.Event", related_name="event")
     user_id: fields.ForeignKeyField("models.User", related_name="owner")
     ticket_type: fields.CharField(max_length=255)
     created_at: fields.DatetimeField(auto_now_add=True)
