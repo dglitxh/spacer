@@ -8,15 +8,19 @@ load_dotenv()
 db = os.getenv("DB_URL")
 
 async def init_db():
-    print("ddododododod")
-    await Tortoise.init(
-        db_url=db,
-        modules = {
-            "models": ["models.models"]
-        }
-    )
-    await Tortoise.generate_schemas()
-    logging.info("database initialized")
-    print("init db")
+    try:
+        print("initializing database")
+        await Tortoise.init(
+            db_url=db,
+            modules = {
+                "models": [models]
+            }
+        )
+        await Tortoise.generate_schemas()
+        logging.info("database initialized")
+        print("init db")
+    except Exception as e:
+        logging.error("there was an error initializing db")
+        print(e)
 
-      
+run_async(init_db())
