@@ -1,5 +1,6 @@
 from enum import Enum
-from pydantic import BaseModel, EmailStr, ValidationError
+from pydantic import BaseModel, EmailStr, ValidationError, Field
+import datetime
 
 class UserType(str, Enum):
 	STANDARD: "standard"
@@ -15,7 +16,7 @@ class User (BaseModel):
     firstname: str
     lastname: str
     age: int
-    email: EmailStr
+    email: str
     gender: Gender
     password: str
     user_type: UserType
@@ -30,10 +31,10 @@ class TicketType(str, Enum):
 
 class Ticket(BaseModel):
     id: str
-    event_id: str
+    event_id: int
     user_id: int
-    created_at: Field(default_factory=datetime.now())
-    ticket_type: TicketType
+    created_at: str
+    ticket_type: str
 
     class Config:
         orm_mode = True
@@ -44,7 +45,7 @@ class TicketPrice(BaseModel):
 class Event(BaseModel):
     id: str
     user_id: int
-    created_at: Field(default_factory=datetime.now())
+    created_at: str
     price: TicketPrice
     
     class Config:
