@@ -33,7 +33,6 @@ class Ticket(BaseModel):
     id: str
     event_id: int
     user_id: int
-    created_at: str
     ticket_type: str
 
     class Config:
