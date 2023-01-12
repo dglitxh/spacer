@@ -2,22 +2,29 @@ import os
 import logging
 from tortoise import Tortoise, run_async
 from dotenv import load_dotenv
-import models.models as models
+# from ..models import models
 from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise
 import time
 
 load_dotenv()
 db = os.getenv("DB_URL") 
 
+TORTOISE_ORM = {
+    "connections": {"default": db},
+    "apps": {
+        "models": {
+            "models": ["models.models", "aerich.models"],
+            "default_connection": "default",
+        },
+    },
+}
+
 def init_db(app):
     try:
         print("initializing database")
         register_tortoise(
             app,
-            db_url=db,
-            modules = {
-                "models": [models, "aerich.models"]
-            },
+            config=TORTOISE_ORM,
             generate_schemas=True,
             add_exception_handlers=True,
         )
@@ -27,12 +34,3 @@ def init_db(app):
         logging.error("there was an error initializing db")
         print(e)
 
-TORTOISE_ORM = {
-    "connections": {"default": db},
-    "apps": {
-        "models": {
-            "models": [models, "aerich.models"],
-            "default_connection": "default",
-        },
-    },
-}
