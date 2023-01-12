@@ -35,8 +35,7 @@ class Ticket(Model):
 
 class Event(Model):
     id = fields.IntField(pk=True, generated=True)
-    tickets = fields.ForeignKeyField("models.Ticket", related_name="tickets")
-    user_id = fields.ForeignKeyField("models.User", related_name="owner")
+    user_id = fields.ForeignKeyField("models.User", related_name="event creator")
     ticket_type = fields.CharField(max_length=255)
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
