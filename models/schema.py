@@ -24,6 +24,9 @@ class User (BaseModel):
     class Config:
         orm_mode: True
 
+class Login (BaseModel):
+    email: EmailStr
+    password: str
 
 class TicketType(str, Enum):
     REGULAR: "regular"
