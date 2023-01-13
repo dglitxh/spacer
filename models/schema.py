@@ -16,7 +16,7 @@ class User (BaseModel):
     firstname: str
     lastname: str
     age: int
-    email: str
+    email: EmailStr
     gender: Gender
     password: str
     user_type: UserType
