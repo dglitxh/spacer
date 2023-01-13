@@ -1,6 +1,6 @@
 from ..models import models, schema
 from passlib.context import CryptContext
-import logging
+from common.logger import logger
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -14,12 +14,16 @@ async def signup(creds: models.User) -> schema.User:
         hashed_pass = hasher(creds.password)
         creds.password = hashed_pass
         user = await models.User.create(creds)
+        logger.info("User signed up succesfully.")
         return user
     except Exception as e:
         # need to create universal logger.
-        logging.error("There was an error creating user")
+        logger.error("There was an error creating user")
         print(e)
 
 
-
-
+async def login(creds: schema.Login) -> str:
+    try:
+        user = models.User.get_or_none(email=creds.email)
+    except Exception as e:
+        print(e)
