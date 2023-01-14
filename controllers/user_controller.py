@@ -22,8 +22,13 @@ async def signup(creds: models.User) -> schema.User:
         print(e)
 
 
-async def login(creds: schema.Login) -> str:
+
+
+async def login(creds: schema.Login) -> models.User:
     try:
+        cred_pass = hasher(creds.password)
         user = models.User.get_or_none(email=creds.email)
+        return user if user.password == cred_pass else None
     except Exception as e:
+        logger.error("There was an error authenticating this user.")
         print(e)
