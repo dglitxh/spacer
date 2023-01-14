@@ -2,9 +2,9 @@ import logging
 
 logger = logging.getLogger("spacer")
 
-logger.basicConfig(filename="spacer.log",
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    filemode='w')
+logging.basicConfig(filename="spacer.log",
+                    format='%(asctime)s - %(levelname)s:  %(message)s',
+                    filemode='a')
 
-logger.setLevel(logging.Debug)
+logger.setLevel(level=logging.DEBUG)
 
