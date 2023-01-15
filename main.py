@@ -5,6 +5,7 @@ from models.schema import Ticket
 import models.models as models
 from tortoise.contrib.pydantic import pydantic_model_creator
 from common.db import init_db
+from common.logger import logger
 
 app = FastAPI()
 init_db(app)
@@ -22,3 +23,4 @@ async def read_item(ticket: Ticket):
     return tick
 
 
+logger.info("We are live.")
