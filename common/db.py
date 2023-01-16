@@ -1,5 +1,5 @@
 import os
-import logging
+from .logger import logger
 from tortoise import Tortoise, run_async
 from dotenv import load_dotenv
 # from ..models import models
@@ -21,16 +21,14 @@ TORTOISE_ORM = {
 
 def init_db(app):
     try:
-        print("initializing database")
         register_tortoise(
             app,
             config=TORTOISE_ORM,
             generate_schemas=True,
             add_exception_handlers=True,
         )
-        logging.info("database initialized succesfully.")
-        print("initialized db")
+        logger.info("database initialized succesfully.")
     except Exception as e:
-        logging.error("there was an error initializing db")
+        logger.error("there was an error initializing db")
         print(e)
 
