@@ -17,7 +17,6 @@ async def signup(creds: models.User) -> schema.User:
         logger.info("User signed up succesfully.")
         return user
     except Exception as e:
-        # need to create universal logger.
         logger.error("There was an error creating user")
         print(e)
 
