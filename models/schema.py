@@ -49,6 +49,7 @@ class Event(BaseModel):
     user_id: int
     created_at: str
     price: TicketPrice
+    event_date: str
     
     class Config:
         orm_mode = True
