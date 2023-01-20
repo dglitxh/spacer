@@ -6,8 +6,10 @@ import models.models as models
 from tortoise.contrib.pydantic import pydantic_model_creator
 from common.db import init_db
 from common.logger import logger
+from controllers import user_controller as user
 
 app = FastAPI()
+app.include_router(user.router)
 init_db(app)
 
 @app.get("/")
