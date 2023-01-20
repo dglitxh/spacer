@@ -3,7 +3,7 @@ from passlib.context import CryptContext
 from common.logger import logger
 from fastapi.routers import APIRouter
 
-router = APIRouter(prefix="/auth")
+auth_router = APIRouter(prefix="/auth")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hasher(password: str) -> str:
