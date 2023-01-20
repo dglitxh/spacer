@@ -1,14 +1,16 @@
 from ..models import models, schema
 from passlib.context import CryptContext
 from common.logger import logger
+from fastapi.routers import APIRouter
 
+router = APIRouter(prefix="/auth")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hasher(password: str) -> str:
     hashed = pwd_context.hash(password)
     return hashed
 
-
+@router.post("/signup", summary="Create an account")
 async def signup(creds: models.User) -> schema.User:
     try:
         hashed_pass = hasher(creds.password)
@@ -22,7 +24,7 @@ async def signup(creds: models.User) -> schema.User:
 
 
 
-
+@router.post("/login", summary="Authenticate user")
 async def login(creds: schema.Login) -> models.User:
     try:
         cred_pass = hasher(creds.password)
