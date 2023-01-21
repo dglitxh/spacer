@@ -17,9 +17,9 @@ class User (BaseModel):
     lastname: str
     age: int
     email: EmailStr
-    gender: Gender
+    gender: str
     password: str
-    user_type: UserType
+    user_type: str
 
     class Config:
         orm_mode: True
