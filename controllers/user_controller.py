@@ -1,6 +1,6 @@
-from ..models import models, schema
+from models import models, schema
 from passlib.context import CryptContext
-from ..common.logger import logger
+from common.logger import logger
 from fastapi import APIRouter
 
 router = APIRouter(prefix="/auth")
@@ -15,7 +15,7 @@ async def signup(creds: schema.User) -> schema.User:
     try:
         hashed_pass = hasher(creds.password)
         creds.password = hashed_pass
-        user = await models.User.create(creds)
+        user = await models.User.create(**creds.dict())
         logger.info("User signed up succesfully.")
         return user
     except Exception as e:
