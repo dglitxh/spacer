@@ -25,11 +25,12 @@ async def signup(creds: schema.User) -> schema.User:
 
 
 @router.post("/login", summary="Authenticate user")
-async def login(creds: schema.Login) -> schema.User:
+async def login(creds: schema.Login) -> schema.ClientUser:
     try:
         cred_pass = hasher(creds.password)
-        user = models.User.get_or_none(email=creds.email)
-        return user if user.password == cred_pass else None
+        db_user = models.User.get_or_none(email=creds.email)
+        verify = pwd_context.verify(cred_pass, user.password)
+        return user if verify else None
     except Exception as e:
         logger.error("There was an error authenticating this user.")
         print(e)
