@@ -24,6 +24,14 @@ class User (BaseModel):
     class Config:
         orm_mode: True
 
+class ClientUser (BaseModel):
+    id: int
+    firstname: str
+    lastname: str
+    age: int
+    email: EmailStr
+    gender: str
+
 class Login (BaseModel):
     email: EmailStr
     password: str
