@@ -22,7 +22,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.utcnow() + timedelta(minutes=30)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm=ALGORITHM)
     return encoded_jwt
@@ -47,6 +47,12 @@ async def login(creds: schema.Login) -> schema.ClientUser:
         cred_pass = hasher(creds.password)
         db_user = models.User.get_or_none(email=creds.email)
         verify = pwd_context.verify(cred_pass, user.password)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
         return user if verify else None
     except Exception as e:
         logger.error("There was an error authenticating this user.")
