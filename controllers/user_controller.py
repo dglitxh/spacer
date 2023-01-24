@@ -1,7 +1,14 @@
 from models import models, schema
 from passlib.context import CryptContext
 from common.logger import logger
-from fastapi import APIRouter
+from datetime import datetime, timedelta
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from dotenv import load_dotenv
+
+load_dotenv()
+ALGORITHM = "HS256"
 
 router = APIRouter(prefix="/auth")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -9,6 +16,16 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def hasher(password: str) -> str:
     hashed = pwd_context.hash(password)
     return hashed
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm=ALGORITHM)
+    return encoded_jwt
 
 @router.post("/signup", summary="Create an account")
 async def signup(creds: schema.User) -> schema.User:
