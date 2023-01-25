@@ -53,7 +53,7 @@ async def login(creds: schema.Login) -> schema.ClientUser:
                 detail="Incorrect username or password",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-        return user if verify else None
+        return user
     except Exception as e:
         logger.error("There was an error authenticating this user.")
         print(e)
