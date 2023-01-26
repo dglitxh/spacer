@@ -45,7 +45,7 @@ async def signup(creds: schema.User) -> schema.User:
 async def login(creds: schema.Login) -> schema.ClientUser:
     try:
         cred_pass = hasher(creds.password)
-        db_user = models.User.get_or_none(email=creds.email)
+        user = models.User.get_or_none(email=creds.email)
         verify = pwd_context.verify(cred_pass, user.password)
         if not user:
             raise HTTPException(
