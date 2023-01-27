@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 ALGORITHM = "HS256"
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 router = APIRouter(prefix="/auth")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -36,7 +37,7 @@ async def get_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
     return user
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
