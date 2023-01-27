@@ -2,8 +2,9 @@ import os
 from .logger import logger
 from tortoise import Tortoise, run_async
 from dotenv import load_dotenv
-import aioredis as redis
+from redis import asyncio as redis
 # from ..models import models
+import asyncio
 from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise
 import time
 
@@ -31,8 +32,15 @@ def init_db(app):
         logger.info("database initialized succesfully.")
     except Exception as e:
         logger.error("there was an error initializing db")
+
+
+def init_rdb():
+    try:
+        r = redis.Redis(host='localhost', port=6379, db=0)
+        logger.info("Connected to redis")
+        return r
+    except Exception as e:
+        logger.error("Redis failed to start...")
         print(e)
 
-
-async def init_redis(): 
-    redis.run_url()
+rdb = init_rdb()
