@@ -1,6 +1,7 @@
 from typing import Union
 from fastapi import FastAPI
 import datetime
+import json
 from models.schema import Ticket
 from models import models
 from tortoise.contrib.pydantic import pydantic_model_creator
@@ -17,9 +18,12 @@ async def home():
     return {"msg: get me lit"}
 
 @app.on_event("startup")
-async def rds():
-    await rdb.set("key", "val")
+async def ping():
+    await rdb.set("key", json.dumps({
+        "PING":"PONG",
+    }))
     key = await rdb.get("key")
-    print(key)
+    key = json.loads(key)
+    print(key["PING"])
 
 logger.info("We are live.")
