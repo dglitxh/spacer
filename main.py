@@ -19,6 +19,9 @@ async def home():
 
 @app.on_event("startup")
 async def ping():
+    """
+        pings redit by setting and getting a value.
+    """
     await rdb.set("key", json.dumps({
         "PING":"PONG",
     }))
