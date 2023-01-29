@@ -31,6 +31,7 @@ class ClientUser (BaseModel):
     age: int
     email: EmailStr
     gender: str
+    user_type: str
 
 class Login (BaseModel):
     email: EmailStr
