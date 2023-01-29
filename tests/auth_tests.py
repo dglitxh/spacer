@@ -3,6 +3,7 @@ from ..main import app
 from fastapi.testclient import TestClient
 from ..models.schema import Gender, UserType
 from ..common.logger import logger
+from common.db import rdb
 
 
 client = TestClient(app)
@@ -23,3 +24,16 @@ def test_signup():
     logger.info(json)
     assert response.status_code == 200
     assert json == creds
+
+def test_signin():
+    response = client.post("/auth/login", json={"email": "daboii@m.com", "password":"daabodaabo"})
+    json = response.json()
+    assert response.status_code == 200
+    assert json == creds
+
+token = rdb.get("token")
+
+def test_get_user(token):
+    response = client.get("/auth/user")
+    json = response.json()
+    assert response.status_code == 200
