@@ -28,7 +28,7 @@ class Ticket(Model):
     modified_at = fields.DatetimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.id
 
     class Meta:
         table: "tickets"
@@ -42,7 +42,7 @@ class Event(Model):
     modified_at = fields.DatetimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.id
 
     class Meta:
         table: "events"
