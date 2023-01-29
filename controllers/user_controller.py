@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
+from common.db import rdb
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -26,13 +27,13 @@ async def get_user(token: str = Depends(oauth2_scheme)):
     )
     try:
         payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        email: str = payload.get("creds")
+        if email is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(email=email)
     except JWTError:
         raise credentials_exception
-    user = get_user(fake_users_db, username=token_data.username)
+    user = user = models.User.get_or_none(email=token_data.email)
     if user is None:
         raise credentials_exception
     return user
@@ -45,6 +46,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
         expire = datetime.utcnow() + timedelta(minutes=30)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm=ALGORITHM)
+    cache_token = rdb.set("token", encoded_jwt)
     return encoded_jwt
 
 @router.post("/signup", summary="Create an account")
@@ -54,6 +56,7 @@ async def signup(creds: schema.User) -> schema.User:
         creds.password = hashed_pass
         user = await models.User.create(**creds.dict())
         logger.info("User signed up succesfully.")
+        token = create_access_token(data={"creds": user.email}, expires_delta=30)
         return user
     except Exception as e:
         logger.error("There was an error creating user")
@@ -73,6 +76,7 @@ async def login(creds: schema.Login) -> schema.ClientUser:
                 detail="Incorrect username or password",
                 headers={"WWW-Authenticate": "Bearer"},
             )
+        token = create_access_token(data={"creds": user.email}, expires_delta=30)
         return user
     except Exception as e:
         logger.error("There was an error authenticating this user.")
