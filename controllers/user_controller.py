@@ -15,6 +15,18 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 router = APIRouter(prefix="/auth")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+def client_user(client_user, user):
+    # client_user.firstname = user.firstname
+    # client_user.lastname = user.lastname
+    # client_user.age = user.age
+    # client_user.gender = user.gender
+    # client_user.email = user.email
+    for i in user:
+        if client_user[i]:
+            client_user[i] = user[i]
+    return client_user
+
+
 def hasher(password: str) -> str:
     hashed = pwd_context.hash(password)
     return hashed
@@ -36,7 +48,10 @@ async def get_user(token: str = Depends(oauth2_scheme)):
     user = user = models.User.get_or_none(email=token_data.email)
     if user is None:
         raise credentials_exception
-    return user
+    client: schema.ClientUser = {}
+    output_client = client_user(client, user)
+    return output_client
+
 
 def create_access_token(data: dict, expires_delta: timedelta):
     to_encode = data.copy()
@@ -47,7 +62,9 @@ def create_access_token(data: dict, expires_delta: timedelta):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm=ALGORITHM)
     cache_token = rdb.set("token", encoded_jwt)
+    logger.info(encoded_jwt)
     return encoded_jwt
+
 
 @router.post("/signup", summary="Create an account")
 async def signup(creds: schema.User) -> schema.User:
