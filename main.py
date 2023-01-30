@@ -2,8 +2,6 @@ from typing import Union
 from fastapi import FastAPI
 import datetime
 import json
-from models.schema import Ticket
-from models import models
 from tortoise.contrib.pydantic import pydantic_model_creator
 from common.db import init_db, rdb
 from common.logger import logger
