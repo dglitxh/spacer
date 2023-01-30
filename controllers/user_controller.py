@@ -67,6 +67,11 @@ async def create_access_token(data: dict, expires_delta: timedelta):
 
 @router.post("/signup", summary="Create an account")
 async def signup(creds: schema.User) -> schema.User:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to create new user!",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
     try:
         hashed_pass = hasher(creds.password)
         creds.password = hashed_pass
@@ -77,6 +82,7 @@ async def signup(creds: schema.User) -> schema.User:
     except Exception as e:
         logger.error("There was an error creating user")
         print(e)
+        raise http_exception
 
 
 
@@ -88,9 +94,8 @@ async def login(creds: schema.Login) -> schema.ClientUser:
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
-        user: schema.ClientUser = await models.User.get_or_none(email=creds.email)
+        user = await models.User.get_or_none(email=creds.email)
         verify = pwd_context.verify(creds.password, user.password)
-        print(verify)
         if not verify:
             raise http_exception
         token = await create_access_token(data={"creds": user.email}, expires_delta=timedelta(minutes=30))
