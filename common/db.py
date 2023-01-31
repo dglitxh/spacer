@@ -37,7 +37,6 @@ def init_db(app):
 def init_rdb():
     try:
         r = redis.Redis(host='localhost', port=6379, db=0)
-        logger.info("Connected to redis")
         return r
     except Exception as e:
         logger.error("Redis failed to start...")
