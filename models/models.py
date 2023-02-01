@@ -19,30 +19,30 @@ class User(Model):
     class Meta:
         table: "users"
 
-class Ticket(Model):
-    id = fields.IntField(pk=True, generated=True)
-    event_id = fields.ForeignKeyField("models.Event", related_name="event")
-    user_id = fields.ForeignKeyField("models.User", related_name="owner")
-    ticket_type = fields.CharField(max_length=255)
-    created_at = fields.DatetimeField(auto_now_add=True)
-    modified_at = fields.DatetimeField(auto_now=True)
+# class Ticket(Model):
+#     id = fields.IntField(pk=True, generated=True)
+#     event_id = fields.ForeignKeyField("models.Event", related_name="event")
+#     user_id = fields.ForeignKeyField("models.User", related_name="owner")
+#     ticket_type = fields.CharField(max_length=255)
+#     created_at = fields.DatetimeField(auto_now_add=True)
+#     modified_at = fields.DatetimeField(auto_now=True)
 
-    def __str__(self):
-        return self.id
+#     def __str__(self):
+#         return self.id
 
-    class Meta:
-        table: "tickets"
+#     class Meta:
+#         table: "tickets"
 
-class Event(Model):
-    id = fields.IntField(pk=True, generated=True)
-    user_id = fields.ForeignKeyField("models.User", related_name="event creator")
-    event_date = fields.DatetimeField()
-    ticket_type = fields.CharField(max_length=255)
-    created_at = fields.DatetimeField(auto_now_add=True)
-    modified_at = fields.DatetimeField(auto_now=True)
+# class Event(Model):
+#     id = fields.IntField(pk=True, generated=True)
+#     user_id = fields.ForeignKeyField("models.User", related_name="event creator")
+#     event_date = fields.DatetimeField()
+#     ticket_type = fields.CharField(max_length=255)
+#     created_at = fields.DatetimeField(auto_now_add=True)
+#     modified_at = fields.DatetimeField(auto_now=True)
 
-    def __str__(self):
-        return self.id
+#     def __str__(self):
+#         return self.id
 
-    class Meta:
-        table: "events"
+#     class Meta:
+#         table: "events"
