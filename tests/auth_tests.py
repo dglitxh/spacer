@@ -37,3 +37,4 @@ def test_get_user(token):
     response = client.get("/auth/user")
     json = response.json()
     assert response.status_code == 200
+    assert json.email == "daboii@m.com"
