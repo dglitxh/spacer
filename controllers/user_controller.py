@@ -31,6 +31,19 @@ def hasher(password: str) -> str:
     hashed = pwd_context.hash(password)
     return hashed
 
+def verify_jwt(token):
+    try:
+        payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=[ALGORITHM])
+        email = payload["creds"]
+        if email is None:
+            raise credentials_exception
+            return False
+        return True
+    except JWTError:
+        raise credentials_exception
+        return False
+
+
 @router.get("/get_user")
 async def get_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
@@ -38,13 +51,7 @@ async def get_user(token: str = Depends(oauth2_scheme)):
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    try:
-        payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=[ALGORITHM])
-        email = payload["creds"]
-        if email is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
+    verify_jwt(token)
     user = await models.User.get_or_none(email=email)
     if user is None:
         raise credentials_exception
