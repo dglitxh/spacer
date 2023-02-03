@@ -85,7 +85,8 @@ async def signup(creds: schema.User) -> schema.User:
         user = await models.User.create(**creds.dict())
         logger.info("User signed up succesfully.")
         token = create_access_token(data={"creds": user.email}, expires_delta=timedelta(30))
-        return user
+        client = client_user(client_user, user)
+        return client
     except Exception as e:
         logger.error("There was an error creating user")
         print(e)
