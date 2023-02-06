@@ -88,8 +88,7 @@ async def signup(creds: schema.User) -> schema.User:
         client = client_user(client_user, user)
         return client
     except Exception as e:
-        logger.error("There was an error creating user")
-        print(e)
+        logger.error(e)
         raise http_exception
 
 
@@ -110,7 +109,6 @@ async def login(creds: schema.Login) -> schema.ClientUser:
         client = client_user(client_user, user)
         return client
     except Exception as e:
-        logger.error("There was an error authenticating this user.")
-        print(e)
+        logger.error(e)
         raise http_exception
        
