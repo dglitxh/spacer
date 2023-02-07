@@ -41,24 +41,4 @@ class TicketType(str, Enum):
     REGULAR: "regular"
     VIP: "vip"
 
-class Ticket(BaseModel):
-    id: str
-    event_id: int
-    user_id: int
-    ticket_type: str
 
-    class Config:
-        orm_mode = True
-
-class TicketPrice(BaseModel):
-    regular: float
-    vip: float
-class Event(BaseModel):
-    id: str
-    user_id: int
-    created_at: str
-    price: TicketPrice
-    event_date: str
-    
-    class Config:
-        orm_mode = True
