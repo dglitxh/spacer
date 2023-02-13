@@ -27,4 +27,4 @@ async def ping():
     key = json.loads(key)
     print(key["PING"])
 
-logger.info("We are live.")
+logger.info("Spacer is running.")
