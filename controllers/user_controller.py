@@ -112,3 +112,19 @@ async def login(creds: schema.Login) -> schema.ClientUser:
         logger.error(e)
         raise http_exception
        
+@router.post("/forgot", summary="Authenticate user")
+async def forgot_pwd(creds: schema.Login):
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        user = await models.User.get_or_none(email=creds.email)
+        if not user:
+            raise http_exception
+       
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
+       
