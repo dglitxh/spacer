@@ -123,7 +123,7 @@ async def forgot_pwd(creds: schema.Login):
         user = await models.User.get_or_none(email=creds.email)
         if not user:
             raise http_exception
-       
+        
     except Exception as e:
         logger.error(e)
         raise http_exception
