@@ -1,8 +1,12 @@
 from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 conf = ConnectionConfig(
-   MAIL_USERNAME=from_,
-   MAIL_PASSWORD="************",
+   MAIL_USERNAME=os.getenv("MAIL"),
+   MAIL_PASSWORD=os.getenv("MAILPASS"),
    MAIL_PORT=587,
    MAIL_SERVER="smtp.gmail.com",
    MAIL_TLS=True,
