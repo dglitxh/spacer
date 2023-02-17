@@ -13,7 +13,7 @@ conf = ConnectionConfig(
    MAIL_SSL=False
 )
 
-async def send_mail():
+async def send_mail(template: str):
     try:
         message = MessageSchema(
             subject="Fastapi-Mail module",

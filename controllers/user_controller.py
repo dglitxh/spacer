@@ -8,6 +8,7 @@ from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from common.db import rdb
+from common.mailer import send_mail
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -114,6 +115,7 @@ async def login(creds: schema.Login) -> schema.ClientUser:
        
 @router.post("/forgot", summary="Authenticate user")
 async def forgot_pwd(creds: schema.Login):
+    template = ""
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect username or password",
@@ -123,7 +125,7 @@ async def forgot_pwd(creds: schema.Login):
         user = await models.User.get_or_none(email=creds.email)
         if not user:
             raise http_exception
-        
+        send_mail(template)
     except Exception as e:
         logger.error(e)
         raise http_exception
