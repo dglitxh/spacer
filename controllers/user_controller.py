@@ -115,7 +115,18 @@ async def login(creds: schema.Login) -> schema.ClientUser:
        
 @router.post("/forgot", summary="Authenticate user")
 async def forgot_pwd(creds: schema.Login):
-    template = ""
+    template = """ <html>
+        <body>
+         
+ 
+        <p>Hi !!!
+        <br>Click the link below to change your spacer account password</p>
+
+         <a href"">Reset password</a>
+ 
+        </body>
+        </html>
+        """
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect username or password",
