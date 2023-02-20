@@ -150,7 +150,7 @@ async def update(password: str) -> schema.ClientUser:
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
-        user = await models.User.get_or_none(email=creds.email)
+        user = await models.User.get_or_none(email=query.email)
         if not user:
             raise http_exception
         new_pass = hasher(password)
