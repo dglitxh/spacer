@@ -140,4 +140,22 @@ async def forgot_pwd(creds: schema.Login):
     except Exception as e:
         logger.error(e)
         raise http_exception
-       
+
+
+@router.put("/upd_pass/{email}", summary="Authenticate user")
+async def update(password: str) -> schema.ClientUser:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        user = await models.User.get_or_none(email=creds.email)
+        if not user:
+            raise http_exception
+        new_pass = hasher(password)
+        user.password = new_pass
+        await models.User.update_from_dict(**dict(user))
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
