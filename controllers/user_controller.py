@@ -129,7 +129,7 @@ async def forgot_pwd(creds: schema.Login):
         """
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect username or password",
+                detail="failed to send reset link",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
@@ -146,7 +146,7 @@ async def forgot_pwd(creds: schema.Login):
 async def update(password: str) -> schema.ClientUser:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect username or password",
+                detail="Failed to update password",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
