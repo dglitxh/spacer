@@ -115,16 +115,15 @@ async def login(creds: schema.Login) -> schema.ClientUser:
        
 @router.post("/forgot", summary="Authenticate user")
 async def forgot_pwd(creds: schema.Login):
-    template = """ <html>
-        <body>
-         
- 
-        <p>Hi !!!
-        <br>Click the link below to change your spacer account password</p>
-
-         <a href"">Reset password</a>
- 
-        </body>
+    template = """ 
+        <html>
+            <body>
+                <p>Hi !!!
+                    <br>Click the link below to change your spacer account password</p>
+                <button>
+                    <a href"">Reset password</a>
+                </button>
+            </body>
         </html>
         """
     http_exception = HTTPException(
