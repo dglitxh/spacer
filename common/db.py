@@ -40,6 +40,5 @@ def init_rdb():
         return r
     except Exception as e:
         logger.error("Redis failed to start...")
-        print(e)
 
 rdb = init_rdb()
