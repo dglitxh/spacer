@@ -1,7 +1,6 @@
 import httpx
 from ..main import app
 from fastapi.testclient import TestClient
-from ..models.schema import Gender, UserType
 from ..common.logger import logger
 from common.db import rdb
 
