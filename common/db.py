@@ -3,7 +3,6 @@ from .logger import logger
 from tortoise import Tortoise, run_async
 from dotenv import load_dotenv
 from redis import asyncio as redis
-# from ..models import models
 import asyncio
 from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise
 import time

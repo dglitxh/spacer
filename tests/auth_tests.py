@@ -4,7 +4,6 @@ from fastapi.testclient import TestClient
 from ..common.logger import logger
 from common.db import rdb
 
-
 client = TestClient(app)
 
 creds = {
