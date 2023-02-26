@@ -114,7 +114,7 @@ async def login(creds: schema.Login) -> schema.ClientUser:
         raise http_exception
        
 @router.post("/forgot", summary="Authenticate user")
-async def forgot_pwd(creds: schema.Login):
+async def forgot_pwd(email: str):
     template = """ 
         <html>
             <body>
@@ -135,7 +135,7 @@ async def forgot_pwd(creds: schema.Login):
         user = await models.User.get_or_none(email=creds.email)
         if not user:
             raise http_exception
-        send_mail(template)
+        send_mail(template, email)
     except Exception as e:
         logger.error(e)
         raise http_exception
