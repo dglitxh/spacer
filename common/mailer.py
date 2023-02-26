@@ -13,11 +13,11 @@ conf = ConnectionConfig(
    MAIL_SSL=False
 )
 
-async def send_mail(template: str):
+async def send_mail(template: str, email: str):
     try:
         message = MessageSchema(
             subject="Fastapi-Mail module",
-            recipients=email.dict().get("email"),  # List of recipients, as many as you can pass
+            recipients=email,
             body=template,
             subtype="html"
             )

@@ -157,4 +157,4 @@ async def update(password: str) -> schema.ClientUser:
         await models.User.update_from_dict(**dict(user))
     except Exception as e:
         logger.error(e)
-        raise http_exception
+        raise http_exception   
