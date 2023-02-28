@@ -28,3 +28,8 @@ class Login (BaseModel):
     password: str
 
 
+class Store (BaseModel):
+    id: int
+    name: str 
+    category: str
+    
