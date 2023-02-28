@@ -32,4 +32,12 @@ class Store (BaseModel):
     id: int
     name: str 
     category: str
+
+class Product (BaseModel):
+    id: int
+    name: str
+    category: str
+    quantity: int
+    price: float
+    rating: float
     
