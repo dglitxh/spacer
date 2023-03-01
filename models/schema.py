@@ -32,6 +32,7 @@ class Store (BaseModel):
     id: int
     name: str 
     category: str
+    cash_total: float
 
 class Product (BaseModel):
     id: int
