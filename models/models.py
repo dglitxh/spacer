@@ -19,3 +19,11 @@ class User(Model):
     class Meta:
         table: "users"
 
+class Store(Model):
+    id: fields.IntField(pk=True, generated=True)
+    name: fields.CharField(max_length=255)
+    category: fields.CharField(max_length=255)
+    cash_total: fields.FloatField()
+    created_at = fields.DatetimeField(auto_now_add=True)
+    modified_at = fields.DatetimeField(auto_now=True)
+ 
