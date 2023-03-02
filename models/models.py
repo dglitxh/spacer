@@ -37,4 +37,14 @@ class Product(Model):
     rating: fields.FloatField()
     store_id: fields.ForeignKeyField(model_name=Store, related_name="store")
 
- 
+class CartItem(Model):
+    id: fields.IntField(pk=True, generated=True)
+    product: fields.ForeignKeyField(model_name=Product)
+    quantity: fields.IntField()
+    total_price: fields.FloatField()
+class Order(Model): 
+    id: fields.IntField(pk=True, generated=True)
+    code: fields.UUIDField(generated=True)
+    paid: fields.BooleanField()
+    delivery: fields.BooleanField()
+    items: fields.ForeignKeyField(model_name=CartItem, related_name="cart_items")
