@@ -44,7 +44,8 @@ class CartItem(Model):
     total_price: fields.FloatField()
 class Order(Model): 
     id: fields.IntField(pk=True, generated=True)
+    user: fields.ForeignKeyField(model_name=User, related_name="user")
     code: fields.UUIDField(generated=True)
-    paid: fields.BooleanField()
-    delivery: fields.BooleanField()
+    paid: fields.BooleanField(default=False)
+    delivery: fields.BooleanField(default=False)
     items: fields.ForeignKeyField(model_name=CartItem, related_name="cart_items")
