@@ -26,4 +26,15 @@ class Store(Model):
     cash_total: fields.FloatField()
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
+    products: fields.ForeignKeyField(model_name=Product, on_delete='CASCADE', related_name="products")
+
+class Product(Model):
+    id: fields.IntField(pk=True, generated=True)
+    name: fields.CharField(max_length=255)
+    description: fields.CharField()
+    category: fields.CharField(max_length)
+    price: fields.FloatField()
+    rating: fields.FloatField()
+    store_id: fields.ForeignKeyField(model_name=Store, related_name="store")
+
  

@@ -37,6 +37,7 @@ class Store (BaseModel):
 class Product (BaseModel):
     id: int
     name: str
+    description: str
     category: str
     quantity: int
     price: float
