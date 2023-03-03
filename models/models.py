@@ -27,6 +27,7 @@ class Store(Model):
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
     products: fields.ForeignKeyField(model_name=Product, on_delete='CASCADE', related_name="products")
+    owner: fields.ForeignKeyField(model_name=User, related_name="owner")
 
 class Product(Model):
     id: fields.IntField(pk=True, generated=True)
@@ -42,7 +43,7 @@ class CartItem(Model):
     product: fields.ForeignKeyField(model_name=Product)
     quantity: fields.IntField()
     total_price: fields.FloatField()
-    
+
 class Order(Model): 
     id: fields.IntField(pk=True, generated=True)
     user: fields.ForeignKeyField(model_name=User, related_name="user")
