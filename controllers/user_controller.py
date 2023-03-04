@@ -154,7 +154,8 @@ async def update(password: str) -> schema.ClientUser:
             raise http_exception
         new_pass = hasher(password)
         user.password = new_pass
-        await models.User.update_from_dict(**dict(user))
+        await user.update_from_dict(dict(user), exclude_unset=True)
+        logger.info("Password update was succesful.")
     except Exception as e:
         logger.error(e)
         raise http_exception   
