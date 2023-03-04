@@ -30,7 +30,9 @@ async def upd_store(data: schema.Store) -> schema.Store:
             )
     try:
         store = await models.Store.get_or_none(id=id)
-        logger.info("store created succesfully")
+        store.update_from_dict(data.dict(exclude_unset=True))
+        await store.save()
+        logger.info("store updated succesfully")
         return client
     except Exception as e:
         logger.error(e)
