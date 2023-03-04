@@ -21,6 +21,20 @@ async def add_store(data: schema.Store) -> schema.Store:
         logger.error(e)
         raise http_exception
 
+@router.post("/{id}/get", summary="Create an account")
+async def get_store(data: schema.Store) -> schema.Store:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to fetch store.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        store = await models.Store.get_or_none(id=id)
+        return store
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
+
 @router.post("/{id}/update", summary="update store")
 async def upd_store(data: schema.Store) -> schema.Store:
     http_exception = HTTPException(
