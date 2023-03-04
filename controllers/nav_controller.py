@@ -21,7 +21,7 @@ async def add_store(data: schema.Store) -> schema.Store:
         logger.error(e)
         raise http_exception
 
-@router.post("/{id}/get", summary="Create an account")
+@router.post("/{id}/get", summary="Get store from db.")
 async def get_store(data: schema.Store) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
