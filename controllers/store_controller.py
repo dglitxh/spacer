@@ -21,7 +21,7 @@ async def add_store(data: schema.Store) -> schema.Store:
         logger.error(e)
         raise http_exception
 
-@router.post("/{id}/get", summary="Get store from db.")
+@router.get("/{id}/get", summary="Get store from db.")
 async def get_store(data: schema.Store) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -35,7 +35,7 @@ async def get_store(data: schema.Store) -> schema.Store:
         logger.error(e)
         raise http_exception
 
-@router.post("/{id}/update", summary="update store")
+@router.put("/{id}/update", summary="update store")
 async def upd_store(data: schema.Store) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -52,7 +52,7 @@ async def upd_store(data: schema.Store) -> schema.Store:
         logger.error(e)
         raise http_exception
 
-@router.post("/{id}/remove", summary="Delete store")
+@router.delete("/{id}/remove", summary="Delete store")
 async def delete_store(data: schema.Store) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -65,6 +65,21 @@ async def delete_store(data: schema.Store) -> schema.Store:
         await store.delete()
         logger.info("store deleted succesfully")
         return store
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
+
+@router.get("/{st_id}/products", summary="Create a product.")
+async def add_product(data: schema.Product) -> schema.Product:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to create store.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        product = await models.Product.filter(store_id=query.st_id)
+        logger.info("product created succesfully")
+        return product
     except Exception as e:
         logger.error(e)
         raise http_exception
