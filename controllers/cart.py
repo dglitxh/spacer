@@ -1,20 +1,17 @@
 from common.db import rdb
 
 class Cart: 
-    def __init__(self, req):
-        self.cart = []
+    async def __init__(self):
+        cart = await rdb.get("cart")
         self.total = 0
 
-    async def cache_cart ():
-        await rdb.set("cart_key", self.cart)
-        await rdb.set("total_amount", self.total)
+    async def cache_cart (self):
+        await rdb.set("cart_key", self.get_cart())
+        await rdb.set("total_amount", self.get_total())
 
 
     async def add_to_cart(self, item):
-        if item.quantity > 1: 
-            self.total += item.price * item.quantity
-        else: 
-            self.total += item.price
+        self.total += item.price * item.quantity
         self.cart.append(item)
         await cache_cart()
         
