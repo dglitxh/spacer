@@ -35,3 +35,19 @@ async def get_product(data: schema.Product) -> schema.Product:
     except Exception as e:
         logger.error(e)
         raise http_exception
+
+@router.get("/update", summary="Update product.")
+async def upd_product(data: schema.Product) -> schema.Product:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to create store.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        product = await model.Product.get_or_none(id=data.id)
+        product.update_from_dict(data.dict(exclude_unset=True))
+        logger.info("Product succesfully updated.")
+        return product
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
