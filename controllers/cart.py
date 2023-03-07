@@ -1,8 +1,9 @@
 from common.db import rdb
 
 class Cart: 
-    async def __init__(self):
-        cart = await rdb.get("cart")
+    def __init__(self):
+        self.cart = []
+
         self.total = 0
 
     async def cache_cart (self):
