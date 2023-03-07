@@ -16,11 +16,8 @@ class Cart:
         self.cart.append(item)
         await cache_cart()
         
-    async def remove_from_cart(self, item):
-        if item.quantity > 1: 
-            self.total -= item.price * item.quantity
-        else: 
-            self.total -= item.price
+    async def remove_from_cart(self, item): 
+        self.total -= item.price * item.quantity
         self.cart = list(filter(lambda x: x.id != item.id))
         await cache_cart()
 
