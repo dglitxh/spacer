@@ -10,7 +10,7 @@ router = APIRouter(prefix="/products")
 async def add_product(data: schema.Product) -> schema.Product:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to create store.",
+                detail="Failed to create Product.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
@@ -26,7 +26,7 @@ async def add_product(data: schema.Product) -> schema.Product:
 async def get_product(data: schema.Product) -> schema.Product:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to create store.",
+                detail="Failed to create Product.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
@@ -40,13 +40,31 @@ async def get_product(data: schema.Product) -> schema.Product:
 async def upd_product(data: schema.Product) -> schema.Product:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to create store.",
+                detail="Failed to create Product.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
         product = await model.Product.get_or_none(id=data.id)
         product.update_from_dict(data.dict(exclude_unset=True))
         logger.info("Product succesfully updated.")
+        return product
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
+
+
+@router.delete("/{id}/remove", summary="Delete product")
+async def delete_product(data: schema.Product) -> schema.Product:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to delete product.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        product = await models.Product.get_or_none(id=id)
+        product.update_from_dict(data.dict(exclude_unset=True))
+        await product.delete()
+        logger.info("Product deleted succesfully")
         return product
     except Exception as e:
         logger.error(e)
