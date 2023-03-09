@@ -24,3 +24,19 @@ async def remove_item(item):
     except Exception as e:
         logger.error(e)
         return
+
+@router.get("/items")
+async def get_items():
+    try: 
+        cart.get_cart()
+    except Exception as e:
+        logger.error(e)
+        return 
+
+@router.get("/total")
+async def get_cart_total():
+    try: 
+        cart.get_total()
+    except Exception as e:
+        logger.error(e)
+        return
