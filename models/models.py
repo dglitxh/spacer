@@ -26,28 +26,51 @@ class Store(Model):
     cash_total: fields.FloatField()
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
-    products: fields.ForeignKeyField(model_name=Product, on_delete='CASCADE', related_name="products")
-    owner: fields.ForeignKeyField(model_name=User, related_name="owner")
+    products: fields.ForeignKeyField(model_name="models.Product", on_delete='CASCADE', related_name="products")
+    owner: fields.ForeignKeyField(model_name="models.User", related_name="owner")
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        table: "stores"
+
 
 class Product(Model):
     id: fields.IntField(pk=True, generated=True)
     name: fields.CharField(max_length=255)
-    description: fields.CharField()
-    category: fields.CharField(max_length)
+    description: fields.CharField(max_length=555)
+    category: fields.CharField(max_length=255)
     price: fields.FloatField()
     rating: fields.FloatField()
-    store_id: fields.ForeignKeyField(model_name=Store, related_name="store")
+    store_id: fields.ForeignKeyField(model_name="models.Store", related_name="store")
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        table: "products"
+
 
 class CartItem(Model):
     id: fields.IntField(pk=True, generated=True)
-    product: fields.ForeignKeyField(model_name=Product)
+    product: fields.ForeignKeyField(model_name="models.Product")
     quantity: fields.IntField()
     total_price: fields.FloatField()
 
+    def __str__(self):
+        return self.name
+    class Meta:
+        table: "cart_items"
+
+
 class Order(Model): 
     id: fields.IntField(pk=True, generated=True)
-    user: fields.ForeignKeyField(model_name=User, related_name="user")
+    owner: fields.ForeignKeyField(model_name="models.User", related_name="user")
     order_code: fields.UUIDField(generated=True)
     paid: fields.BooleanField(default=False)
     delivery: fields.BooleanField(default=False)
-    items: fields.ForeignKeyField(model_name=CartItem, related_name="cart_items")
+    items: fields.ForeignKeyField(model_name="models.CartItem", related_name="cart_items")
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        table: "orders"
