@@ -3,14 +3,15 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
+print(os.getenv("MAIL"))
 conf = ConnectionConfig(
    MAIL_USERNAME=os.getenv("MAIL"),
    MAIL_PASSWORD=os.getenv("MAILPASS"),
+   MAIL_FROM="daboii@m.com",
    MAIL_PORT=587,
    MAIL_SERVER="smtp.gmail.com",
-   MAIL_TLS=True,
-   MAIL_SSL=False
+   MAIL_STARTTLS=True,
+   MAIL_SSL_TLS=False
 )
 
 async def send_mail(template: str, email: str):
