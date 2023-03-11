@@ -22,11 +22,11 @@ class User(Model):
 class Store(Model):
     id: fields.IntField(pk=True, generated=True)
     name: fields.CharField(max_length=255)
+    description: fields.CharField(max_length=555)
     category: fields.CharField(max_length=255)
     cash_total: fields.FloatField()
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
-    products: fields.ForeignKeyField(model_name="models.Product", on_delete='CASCADE', related_name="products")
     owner: fields.ForeignKeyField(model_name="models.User", related_name="owner")
 
     def __str__(self):
