@@ -14,6 +14,7 @@ async def add_store(data: schema.Store) -> schema.Store:
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
+        data.cash_total = 0.0
         store = await models.Store.create(**data.dict())
         logger.info("store created succesfully")
         return store
@@ -80,6 +81,24 @@ async def get_store_products(data: schema.Product) -> schema.Product:
         product = await models.Product.filter(store_id=query.st_id)
         logger.info("product created succesfully")
         return product
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
+
+@router.put("/{id}/update_income", summary="update store")
+async def upd_store(amt: float) -> schema.Store:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to create store.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        store = await models.Store.get_or_none(id=id)
+        store.cash_total = amt
+        store.update_from_dict(data.dict(exclude_unset=True))
+        await store.save()
+        logger.info("store updated succesfully")
+        return store
     except Exception as e:
         logger.error(e)
         raise http_exception
