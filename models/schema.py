@@ -1,6 +1,11 @@
 from enum import Enum
 from pydantic import BaseModel, EmailStr, ValidationError, Field
 import datetime
+
+class UserType(str, Enum):
+    SELLER: "seller"
+    ADMIN: "admin"
+    CUSTOMER: "customer"
 class User (BaseModel):
     id: int
     firstname: str
