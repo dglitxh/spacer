@@ -1,5 +1,6 @@
 from tortoise.models import Model
 from tortoise import fields
+from .schema import UserType
 
 
 class User(Model):
@@ -8,7 +9,7 @@ class User(Model):
     lastname = fields.CharField(max_length=255)
     age = fields.IntField()
     email = fields.CharField(max_length=255, unique=True, null=False)
-    user_type = fields.CharField(max_length=255)
+    user_type = fields.CharEnumField(enum_type=UserType)
     gender = fields.CharField(max_length=255)
     password = fields.CharField(max_length=255, null=False)
     created_at = fields.DatetimeField(auto_now_add=True)
