@@ -22,8 +22,8 @@ async def add_store(data: schema.Store) -> schema.Store:
         logger.error(e)
         raise http_exception
 
-@router.get("/{id}/get", summary="Get store from db.")
-async def get_store(data: schema.Store) -> schema.Store:
+@router.get("/{id}", summary="Get store from db.")
+async def get_store(id: int) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to fetch store.",
@@ -37,7 +37,7 @@ async def get_store(data: schema.Store) -> schema.Store:
         raise http_exception
 
 @router.put("/{id}/update", summary="update store")
-async def upd_store(data: schema.Store) -> schema.Store:
+async def upd_store(data: schema.Store, id: int) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to create store.",
@@ -54,7 +54,7 @@ async def upd_store(data: schema.Store) -> schema.Store:
         raise http_exception
 
 @router.delete("/{id}/remove", summary="Delete store")
-async def delete_store(data: schema.Store) -> schema.Store:
+async def delete_store(data: schema.Store, id: int) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to delete store.",
@@ -86,7 +86,7 @@ async def get_store_products(data: schema.Product) -> schema.Product:
         raise http_exception
 
 @router.put("/{id}/update_income", summary="update store")
-async def upd_store(amt: float) -> schema.Store:
+async def upd_store(amt: float, id: int) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to create store.",
