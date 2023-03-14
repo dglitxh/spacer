@@ -33,4 +33,4 @@ class Cart:
         return self.total
 
     def get_cart(self):
-        return self.cart
+        return self.cart.values()
