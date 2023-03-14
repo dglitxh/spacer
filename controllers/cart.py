@@ -2,7 +2,7 @@ from common.db import rdb
 
 class Cart: 
     def __init__(self):
-        self.cart = []
+        self.cart = {}
         self.total = 0
 
     async def cache_cart (self):
@@ -11,17 +11,22 @@ class Cart:
 
 
     async def add_to_cart(self, item):
+        id = item.id
+        if not cart[id]:
+            cart[id] = item
+        else: 
+            cart[id].quantity += item.quantity
         self.total += item.price * item.quantity
-        self.cart.append(item)
         await cache_cart()
         
     async def remove_from_cart(self, item): 
         self.total -= item.price * item.quantity
         self.cart = list(filter(lambda x: x.id != item.id))
+        del item.id 
         await cache_cart()
 
     async def empty_cart(self):
-        self.cart = []
+        self.cart = {}
         await cache_cart()
 
     def get_total (self):
