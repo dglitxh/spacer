@@ -1,11 +1,9 @@
 import os
 from .logger import logger
-from tortoise import Tortoise, run_async
+from tortoise import Tortoise
 from dotenv import load_dotenv
 from redis import asyncio as redis
-import asyncio
-from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise
-import time
+from tortoise.contrib.fastapi import register_tortoise
 
 load_dotenv()
 db = os.getenv("DB_URL") 
