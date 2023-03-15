@@ -10,7 +10,7 @@ class Cart:
         await rdb.set("total_amount", self.get_total())
 
 
-    async def add_to_cart(self, item):
+    async def add_to_cart(self, item) -> None:
         id = item.id
         if not cart[id]:
             cart[id] = item
@@ -19,7 +19,7 @@ class Cart:
         self.total += item.price * item.quantity
         await cache_cart()
         
-    async def remove_from_cart(self, item): 
+    async def remove_from_cart(self, item) -> None: 
         id = item.id
         if cart[id]:
             cart[id].quantity -= item.quantity
