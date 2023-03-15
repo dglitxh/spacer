@@ -11,11 +11,15 @@ from controllers.store_controller import router as store_router
 app = FastAPI()
 app.include_router(auth_router)
 app.include_router(store_router)
-init_db(app)
+
 
 @app.get("/")
 async def home():
     return {"msg: get me lit"}
+
+@app.on_event("startup")
+def database_init():
+    init_db(app)
 
 @app.on_event("startup")
 async def ping():
