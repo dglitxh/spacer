@@ -9,7 +9,7 @@ class User(Model):
     lastname = fields.CharField(max_length=255)
     age = fields.IntField()
     email = fields.CharField(max_length=255, unique=True, null=False)
-    user_type = fields.CharEnumField(enum_type=UserType)
+    user_type = fields.CharEnumField(enum_type=UserType, max_length=12)
     gender = fields.CharField(max_length=255)
     password = fields.CharField(max_length=255, null=False)
     created_at = fields.DatetimeField(auto_now_add=True)
@@ -66,6 +66,7 @@ class CartItem(Model):
 class Order(Model):
     id = fields.IntField(pk=True, generated=True)
     owner = fields.ForeignKeyField(model_name="models.User", related_name="user")
+    store_id = fields.ForeignKeyField(model_name="models.Store", related_name="order_store")
     order_code = fields.UUIDField(generated=True)
     paid = fields.BooleanField(default=False)
     delivery = fields.BooleanField(default=False)
