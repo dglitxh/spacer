@@ -20,9 +20,11 @@ class Cart:
         await cache_cart()
         
     async def remove_from_cart(self, item): 
+        id = item.id
+        if cart[id]:
+            cart[id].quantity -= item.quantity
+        
         self.total -= item.price * item.quantity
-        self.cart = list(filter(lambda x: x.id != item.id))
-        del item.id 
         await cache_cart()
 
     async def empty_cart(self):
