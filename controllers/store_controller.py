@@ -71,14 +71,14 @@ async def delete_store(data: schema.Store, id: int) -> schema.Store:
         raise http_exception
 
 @router.get("/{st_id}/products", summary="Create a product.")
-async def get_store_products(data: schema.Product) -> schema.Product:
+async def get_store_products(data: schema.Product, st_id: int) -> schema.Product:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to create store.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
-        product = await models.Product.filter(store_id=query.st_id)
+        product = await models.Product.filter(store_id=st_id)
         logger.info("product created succesfully")
         return product
     except Exception as e:
