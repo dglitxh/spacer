@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 
 router = APIRouter(prefix="/transactions")
 
-@router.post("/withdraw")
-async def withdraw_from_store(amount: float):
+@router.post("stores/{id}/withdraw")
+async def withdraw_from_store(amount: float, id: int):
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to withdraw money.",
