@@ -155,6 +155,7 @@ async def update(password: str, email: str) -> schema.ClientUser:
         new_pass = hasher(password)
         user.password = new_pass
         await user.update_from_dict(dict(user), exclude_unset=True)
+        user.save()
         logger.info("Password update was succesful.")
     except Exception as e:
         logger.error(e)
