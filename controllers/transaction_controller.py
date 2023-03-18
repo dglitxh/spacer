@@ -23,3 +23,16 @@ async def withdraw_from_store(amount: float, id: int):
     except Exception as e:
         logger.error(e)
         return
+
+@router.get("orders/{id}/payment")
+async def pay_order(id: int):
+     http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to withdraw money.",
+                headers={"WWW-Authenticate": "Bearer"},)
+
+    try:
+        order = await models.Order.get_or_none(id=id)
+        if not order:
+            raise http_exception
+        amt = order.
