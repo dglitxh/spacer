@@ -3,10 +3,8 @@ import json
 from models import models, schema
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from dotenv import load_dotenv
-from .cart import Cart
+from ..main import cart
 
-
-cart = Cart()
 router = APIRouter(prefix="/cart")
 
 @router.post("/add")
