@@ -4,6 +4,7 @@ from ..common.logger import logger
 from models import models, schema
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from dotenv import load_dotenv
+from ..main import cart
 
 
 router = APIRouter(prefix="/transactions")
@@ -26,7 +27,7 @@ async def withdraw_from_store(amount: float, id: int):
 
 @router.get("orders/{id}/payment")
 async def pay_order(id: int):
-     http_exception = HTTPException(
+    http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to withdraw money.",
                 headers={"WWW-Authenticate": "Bearer"},)
@@ -35,4 +36,13 @@ async def pay_order(id: int):
         order = await models.Order.get_or_none(id=id)
         if not order:
             raise http_exception
-        amt = order.
+        amt = cart.get_total()
+        # make your payment. 
+
+        order.paid = True
+        order.update_from_dict(dict(order), exclude_unset=True)
+        order.save()
+
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
