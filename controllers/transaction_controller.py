@@ -42,7 +42,7 @@ async def pay_order(id: int):
         order.paid = True
         order.update_from_dict(dict(order), exclude_unset=True)
         order.save()
-
+        logger.info("Payment was succesfull.")
     except Exception as e:
         logger.error(e)
         raise http_exception
