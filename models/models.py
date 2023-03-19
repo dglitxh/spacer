@@ -51,8 +51,9 @@ class Product(Model):
         table = "products"
 
 
-class CartItem(Model):
+class OrderItem(Model):
     id = fields.IntField(pk=True, generated=True)
+    order_id = fields.ForeignKeyField(model_name="models.Order", related_name="order")
     product = fields.ForeignKeyField(model_name="models.Product")
     quantity = fields.IntField()
     total_price = fields.FloatField()
@@ -70,7 +71,6 @@ class Order(Model):
     order_code = fields.UUIDField(generated=True)
     paid = fields.BooleanField(default=False)
     delivery = fields.BooleanField(default=False)
-    items = fields.ForeignKeyField(model_name="models.CartItem", related_name="cart_items")
 
     def __str__(self):
         return self.name
