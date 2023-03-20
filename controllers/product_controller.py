@@ -46,6 +46,7 @@ async def upd_product(data: schema.Product) -> schema.Product:
     try:
         product = await model.Product.get_or_none(id=data.id)
         product.update_from_dict(data.dict(exclude_unset=True))
+        await product.save()
         logger.info("Product succesfully updated.")
         return product
     except Exception as e:
