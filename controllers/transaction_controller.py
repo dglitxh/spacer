@@ -24,6 +24,7 @@ async def withdraw_from_store(amount: float, id: int):
             store.cash_total -= amount
             store.update_from_dict(dict(store), exclude_unset=True)
             store.save()
+        logger.info("Cash withdrawal was succesful")
     except Exception as e:
         logger.error(e)
         return
@@ -32,7 +33,7 @@ async def withdraw_from_store(amount: float, id: int):
 async def pay_order(id: int):
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to withdraw money.",
+                detail="Failed to complete payment.",
                 headers={"WWW-Authenticate": "Bearer"},)
 
     try:
