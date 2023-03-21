@@ -21,6 +21,9 @@ async def withdraw_from_store(amount: float, id: int):
             if amount > store.cash_total:
                 raise http_exception
             # withraw money
+            store.cash_total -= amount
+            store.update_from_dict(dict(store), exclude_unset=True)
+            store.save()
     except Exception as e:
         logger.error(e)
         return
