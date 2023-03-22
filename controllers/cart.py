@@ -2,6 +2,11 @@ from common.db import rdb
 
 class Cart: 
     def __init__(self):
+        cart = rdb.get("cart_key")
+        total = rdb.get("total_amount")
+        if cart and total:
+            self.cart = cart
+            self.total = total
         self.cart = {}
         self.total = 0
 
@@ -21,9 +26,8 @@ class Cart:
         
     async def remove_from_cart(self, item) -> None: 
         id = item.id
-        if cart[id]:
-            cart[id].quantity -= item.quantity
-        
+        if self.cart[id]:
+            self.cart[id].quantity -= item.quantity
         self.total -= item.price * item.quantity
         await cache_cart()
 
