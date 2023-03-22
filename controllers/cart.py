@@ -7,8 +7,9 @@ class Cart:
         if cart and total:
             self.cart = cart
             self.total = total
-        self.cart = {}
-        self.total = 0
+        else:
+            self.cart = {}
+            self.total = 0
 
     async def cache_cart (self):
         await rdb.set("cart_key", self.get_cart())
@@ -18,9 +19,9 @@ class Cart:
     async def add_to_cart(self, item) -> None:
         id = item.id
         if not cart[id]:
-            cart[id] = item
+            self.cart[id] = item
         else: 
-            cart[id].quantity += item.quantity
+            self.cart[id].quantity += item.quantity
         self.total += item.price * item.quantity
         await cache_cart()
         
