@@ -38,14 +38,18 @@ async def pay_order(id: int):
 
     try:
         order = await models.Order.get_or_none(id=id)
+        store = await models.Store.get_or_none(id=order.store_id)
         if not order:
             raise http_exception
         amt = cart.get_total()
         # make your payment. 
-
+        store = await models.Store.get_or_none(id=order.store_id)
+        store.cash_total += amt
+        store.update_from_dict(dict(store), exclude_unset=True)
+        await store.save()
         order.paid = True
         order.update_from_dict(dict(order), exclude_unset=True)
-        order.save()
+        await order.save()
         logger.info("Payment was succesfull.")
     except Exception as e:
         logger.error(e)
