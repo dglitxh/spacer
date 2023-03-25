@@ -7,11 +7,12 @@ from common.db import init_db, rdb
 from common.logger import logger
 from controllers.user_controller import router as auth_router
 from controllers.store_controller import router as store_router
+from controllers.cart import Cart
 
 app = FastAPI()
 app.include_router(auth_router)
 app.include_router(store_router)
-from .controllers.cart import Cart
+
 
 
 cart = Cart()
