@@ -7,7 +7,6 @@ class UserType(str, Enum):
     ADMIN: "admin"
     CUSTOMER: "customer"
 class User (BaseModel):
-    id: int
     firstname: str
     lastname: str
     age: int
@@ -34,13 +33,13 @@ class Login (BaseModel):
 
 
 class Store (BaseModel):
-    id: int
     name: str 
+    description: str
     category: str
     cash_total: float
+    owner_id: int
 
 class Product (BaseModel):
-    id: int
     name: str
     description: str
     category: str
