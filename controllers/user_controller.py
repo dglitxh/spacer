@@ -19,6 +19,7 @@ router = APIRouter(prefix="/auth")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def client_user(client_user: schema.ClientUser, user):
+    client_user.id = user.id
     client_user.firstname = user.firstname
     client_user.lastname = user.lastname
     client_user.age = user.age
@@ -32,33 +33,43 @@ def hasher(password: str) -> str:
     hashed = pwd_context.hash(password)
     return hashed
 
-def verify_jwt(token):
+credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+def verify_jwt(token) -> dict:
     try:
         payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=[ALGORITHM])
         email = payload["creds"]
         if email is None:
             raise credentials_exception
-            return False
-        return True
+            return {
+                "vfy": False,
+                "email": email
+            }
+        return {
+                "vfy": True,
+                "email": email
+            }
     except JWTError:
+        logger.error(JWTError)
         raise credentials_exception
         return False
 
 
 @router.get("/get_user")
 async def get_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    verify_jwt(token)
-    user = await models.User.get_or_none(email=email)
-    if user is None:
-        raise credentials_exception
-    client = client_user(client_user, user)
-    return client
-
+    verify = verify_jwt(token)
+    if verify["vfy"]:
+        email =  verify["email"]
+        user = await models.User.get_or_none(email=email)
+        if user is None:
+            raise credentials_exception
+        client = client_user(client_user, user)
+        return client
+    else: raise credentials_exception
 
 async def create_access_token(data: dict, expires_delta: timedelta):
     to_encode = data.copy()
@@ -85,7 +96,7 @@ async def signup(creds: schema.User) -> schema.User:
         creds.password = hashed_pass
         user = await models.User.create(**creds.dict())
         logger.info("User signed up succesfully.")
-        token = create_access_token(data={"creds": user.email}, expires_delta=timedelta(30))
+        token = await create_access_token(data={"creds": user.email}, expires_delta=timedelta(30))
         client = client_user(client_user, user)
         return client
     except Exception as e:
