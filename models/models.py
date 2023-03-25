@@ -22,10 +22,10 @@ class User(Model):
 
 class Store(Model):
     id = fields.IntField(pk=True, generated=True)
-    name = fields.CharField(max_length=255)
+    name = fields.CharField(max_length=255, null=False)
     description = fields.CharField(max_length=555)
-    category = fields.CharField(max_length=255)
-    cash_total = fields.FloatField()
+    category = fields.CharField(max_length=255, null=False)
+    cash_total = fields.FloatField(null=False)
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
     owner = fields.ForeignKeyField(model_name="models.User", related_name="owner")
@@ -38,10 +38,10 @@ class Store(Model):
 
 class Product(Model):
     id = fields.IntField(pk=True, generated=True)
-    name = fields.CharField(max_length=255)
+    name = fields.CharField(max_length=255, null=False)
     description = fields.CharField(max_length=555)
-    category = fields.CharField(max_length=255)
-    price = fields.FloatField()
+    category = fields.CharField(max_length=255, null=False)
+    price = fields.FloatField(null=False)
     rating = fields.FloatField()
     store_id = fields.ForeignKeyField(model_name="models.Store", related_name="store")
 
