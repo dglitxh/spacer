@@ -3,8 +3,9 @@ import json
 from models import models, schema
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from dotenv import load_dotenv
+from common.logger import logger
 
-router = APIRouter(prefix="/store")
+router = APIRouter(prefix="/stores")
 
 @router.post("/new", summary="Create a store.")
 async def add_store(data: schema.Store) -> schema.Store:
@@ -54,7 +55,7 @@ async def upd_store(data: schema.Store, id: int) -> schema.Store:
         raise http_exception
 
 @router.delete("/{id}/remove", summary="Delete store")
-async def delete_store(data: schema.Store, id: int) -> schema.Store:
+async def delete_store(id: int) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Failed to delete store.",
@@ -62,7 +63,6 @@ async def delete_store(data: schema.Store, id: int) -> schema.Store:
             )
     try:
         store = await models.Store.get_or_none(id=id)
-        store.update_from_dict(data.dict(exclude_unset=True))
         await store.delete()
         logger.info("store deleted succesfully")
         return store
