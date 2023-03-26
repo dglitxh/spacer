@@ -28,7 +28,7 @@ class Store(Model):
     cash_total = fields.FloatField(null=False)
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
-    owner = fields.ForeignKeyField(model_name="models.User", related_name="owner")
+    owner = fields.ForeignKeyField(model_name="models.User", related_name="owner", on_delete="CASCADE")
 
     def __str__(self):
         return self.name
@@ -43,7 +43,7 @@ class Product(Model):
     category = fields.CharField(max_length=255, null=False)
     price = fields.FloatField(null=False)
     rating = fields.FloatField()
-    store_id = fields.ForeignKeyField(model_name="models.Store", related_name="store")
+    store = fields.ForeignKeyField(model_name="models.Store", related_name="store", on_delete="CASCADE")
 
     def __str__(self):
         return self.name
@@ -53,7 +53,7 @@ class Product(Model):
 
 class OrderItem(Model):
     id = fields.IntField(pk=True, generated=True)
-    order_id = fields.ForeignKeyField(model_name="models.Order", related_name="order")
+    order = fields.ForeignKeyField(model_name="models.Order", related_name="order", on_delete="CASCADE")
     product = fields.ForeignKeyField(model_name="models.Product")
     quantity = fields.IntField()
     total_price = fields.FloatField()
@@ -67,7 +67,7 @@ class OrderItem(Model):
 class Order(Model):
     id = fields.IntField(pk=True, generated=True)
     owner = fields.ForeignKeyField(model_name="models.User", related_name="user")
-    store_id = fields.ForeignKeyField(model_name="models.Store", related_name="order_store")
+    store = fields.ForeignKeyField(model_name="models.Store", related_name="order_store", on_delete="CASCADE")
     order_code = fields.UUIDField(generated=True)
     paid = fields.BooleanField(default=False)
     delivery = fields.BooleanField(default=False)
