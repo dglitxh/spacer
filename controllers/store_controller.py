@@ -23,7 +23,7 @@ async def add_store(data: schema.Store) -> schema.Store:
         logger.error(e)
         raise http_exception
 
-@router.get("/{id}", summary="Get store from db.")
+@router.get("/{id}/get", summary="Get store from db.")
 async def get_store(id: int) -> schema.Store:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -81,6 +81,21 @@ async def get_store_products(data: schema.Product, st_id: int) -> schema.Product
         product = await models.Product.filter(store_id=st_id)
         logger.info("product created succesfully")
         return product
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
+
+@router.get("/all", summary="get all stores")
+async def get_stores():
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to get stores.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        stores = await models.Store.all().limit(50)
+        print(stores)
+        return stores
     except Exception as e:
         logger.error(e)
         raise http_exception
