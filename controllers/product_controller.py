@@ -2,6 +2,7 @@ import os
 import json
 from models import models, schema
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
+from common.logger import logger
 from dotenv import load_dotenv
 
 router = APIRouter(prefix="/products")
