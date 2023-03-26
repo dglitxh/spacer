@@ -43,7 +43,7 @@ class Product (BaseModel):
     name: str
     description: str
     category: str
-    quantity: int
     price: float
     rating: float
+    store_id: int
     
