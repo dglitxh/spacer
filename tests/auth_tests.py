@@ -36,3 +36,25 @@ def test_get_user(token):
     json = response.json()
     assert response.status_code == 200
     assert json.email == "daboii@m.com"
+
+
+store = {
+    "id": 1,
+    "name": "Big store", 
+    "description": "we sell big tings",
+    "category": "groceries",
+    "cash_total": 20.2,
+    "owner": 1
+}
+
+store = {
+    "id": 1,
+    "name": "Big store", 
+    "description": "we sell big tings",
+    "category": "groceries",
+    "rating": 0.0,
+    "price": 20.2,
+    "store_id": 1
+}
+
+{"email": "slime@gmail.com", "password": "daabodaabo"}

@@ -37,3 +37,18 @@ async def upd_order(data: schema.Order) -> schema.Order:
     except Exception as e:
         logger.error(e)
         raise http_exception
+
+
+@router.get("/{id}/get", summary="Update order.")
+async def upd_order(id: int) -> schema.Order:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to create order.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        order = await model.Order.get_or_none(id=id)
+        return order
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
