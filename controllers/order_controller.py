@@ -47,8 +47,24 @@ async def upd_order(id: int) -> schema.Order:
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
-        order = await model.Order.get_or_none(id=id)
+        order = await models.Order.get_or_none(id=id)
         return order
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
+
+
+@router.get("/stores/{id}")
+async def get_store_orders(id: int) -> schema.Order:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to create order.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+    try:
+        orders = await models.Store.filter(store_id=id)
+        return orders
     except Exception as e:
         logger.error(e)
         raise http_exception
