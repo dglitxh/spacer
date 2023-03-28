@@ -69,3 +69,15 @@ async def get_store_orders(id: int) -> schema.Order:
     except Exception as e:
         logger.error(e)
         raise http_exception
+
+
+@router.delete("/{id}/delete", summary="delete order")
+async def delete_order(id: int) -> schema.Order:
+
+    try:
+        order = await models.Order.get_or_none(id=id)
+        if order:
+            await order.delete()
+        return order
+    except Exception as e:
+        logger.error(e)
