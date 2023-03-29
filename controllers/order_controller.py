@@ -73,7 +73,11 @@ async def get_store_orders(id: int) -> schema.Order:
 
 @router.delete("/{id}/delete", summary="delete order")
 async def delete_order(id: int) -> schema.Order:
-
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to delete order.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
     try:
         order = await models.Order.get_or_none(id=id)
         if order:
@@ -81,3 +85,4 @@ async def delete_order(id: int) -> schema.Order:
         return order
     except Exception as e:
         logger.error(e)
+        raise http_exception
