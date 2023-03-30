@@ -55,7 +55,7 @@ async def upd_order(id: int) -> schema.Order:
         raise http_exception
 
 
-@router.get("/stores/{id}")
+@router.get("/stores/{id}/get_orders")
 async def get_store_orders(id: int) -> schema.Order:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
