@@ -16,7 +16,7 @@ async def add_order(data: schema.Order) -> schema.Order:
             )
     try:
         order = await models.Order.create(**data.dict())
-        cart = await rdb.get("cart_id")
+        cart = await rdb.get("cart_key")
         if cart:
             for item in cart:
                 await models.OrderItem.create(**item.dict())
@@ -35,7 +35,7 @@ async def upd_order(data: schema.Order) -> schema.Order:
             )
     try:
         order = await model.Order.get_or_none(id=data.id)
-        order.update_from_dict(dict(data), exclude_unset=True)
+        order.update_from_dict(dict(data, exclude_unset=True))
         await order.save()
         logger.info("order succesfully updated.")
         return order
