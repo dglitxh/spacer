@@ -23,7 +23,7 @@ async def add_product(data: schema.Product) -> schema.Product:
         raise http_exception
 
 
-@router.get("/{id}", summary="Create a product.")
+@router.get("/{id}/get", summary="Create a product.")
 async def get_product(id:int) -> schema.Product:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
