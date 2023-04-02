@@ -90,3 +90,17 @@ async def delete_order(id: int) -> schema.Order:
     except Exception as e:
         logger.error(e)
         raise http_exception
+
+@router.get("/{id}/get_items", summary="delete order")
+async def get_order_items(id: int) -> schema.Order:
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to get order items.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        order_items = await models.OrderItem.filter(order_id=id)
+        return order_items
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
