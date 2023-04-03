@@ -10,7 +10,8 @@ router = APIRouter(prefix="/cart")
 @router.post("/add")
 async def add_item(item) -> schema.CartItem:
     try:
-        return cart.add_to_cart(item)
+        add = await cart.add_to_cart(item)
+        return add
     except Exception as e:
         logger.error(e)
         return 
@@ -18,7 +19,8 @@ async def add_item(item) -> schema.CartItem:
 @router.delete("/{id}/remove")
 async def remove_item(item):
     try: 
-        return cart.remove_from_cart(item)
+        rem = await cart.remove_from_cart(item)
+        return rem
     except Exception as e:
         logger.error(e)
         return
@@ -26,7 +28,8 @@ async def remove_item(item):
 @router.get("/items")
 async def get_items():
     try: 
-        cart.get_cart()
+        cart = cart.get_cart()
+        return cart
     except Exception as e:
         logger.error(e)
         return 
