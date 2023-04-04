@@ -104,3 +104,17 @@ async def get_order_items(id: int) -> schema.Order:
     except Exception as e:
         logger.error(e)
         raise http_exception
+
+@router.get("/all", summary="get all orders")
+async def get_orders():
+    http_exception = HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Failed to get order items.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    try:
+        orders = await models.Order.all()
+        return orders
+    except Exception as e:
+        logger.error(e)
+        raise http_exception
