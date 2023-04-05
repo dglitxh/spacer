@@ -113,7 +113,7 @@ async def get_orders():
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
-        orders = await models.Order.all()
+        orders = await models.Order.all().limit(50)
         return orders
     except Exception as e:
         logger.error(e)
