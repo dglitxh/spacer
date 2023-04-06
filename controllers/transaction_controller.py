@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from ..common.logger import logger
 from models import models, schema
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
@@ -43,14 +44,16 @@ async def pay_order(id: int):
             raise http_exception
         amt = cart.get_total()
         # make your payment. 
-        store = await models.Store.get_or_none(id=order.store_id)
-        store.cash_total += amt
-        store.update_from_dict(dict(store), exclude_unset=True)
-        await store.save()
-        order.paid = True
-        order.update_from_dict(dict(order), exclude_unset=True)
-        await order.save()
-        logger.info("Payment was succesfull.")
+        verify = await requests.get("")
+        if verify:
+            store = await models.Store.get_or_none(id=order.store_id)
+            store.cash_total += amt
+            store.update_from_dict(dict(store), exclude_unset=True)
+            await store.save()
+            order.paid = True
+            order.update_from_dict(dict(order), exclude_unset=True)
+            await order.save()
+            logger.info("Payment was succesfull.")
     except Exception as e:
         logger.error(e)
         raise http_exception
