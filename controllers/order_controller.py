@@ -3,7 +3,7 @@ import json
 from models import models, schema
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from dotenv import load_dotenv
-from commom.logger import logger
+from common.logger import logger
 
 router = APIRouter(prefix="/orders")
 
