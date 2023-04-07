@@ -3,12 +3,13 @@ import json
 from models import models, schema
 from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from dotenv import load_dotenv
-from ..main import cart
+from common.logger import logger
+from .cart import cart
 
 router = APIRouter(prefix="/cart")
 
 @router.post("/add")
-async def add_item(item) -> schema.CartItem:
+async def add_item(item: schema.OrderItem) -> schema.OrderItem:
     try:
         add = await cart.add_to_cart(item)
         return add
