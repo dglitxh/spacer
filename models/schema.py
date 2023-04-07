@@ -47,3 +47,14 @@ class Product (BaseModel):
     rating: float
     store_id: int
     
+class OrderItem (BaseModel):
+    product_id: int
+    quantity: int
+    total_price: float
+
+class Order(BaseModel):
+    owner = int
+    store = int
+    order_code = str
+    paid = bool
+    delivery = bool
