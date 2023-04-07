@@ -10,18 +10,13 @@ from controllers.store_controller import router as store_router
 from controllers.product_controller import router as product_router
 from controllers.cart_controller import router as cart_router
 from controllers.order_controller import router as order_controller
-from controllers.cart import Cart
 
 app = FastAPI()
 app.include_router(auth_router)
 app.include_router(store_router)
 app.include_router(product_router)
 app.include_router(cart_router)
-app.include_router(router_controller)
-
-
-
-cart = Cart()
+app.include_router(order_controller)
 
 @app.get("/")
 async def home():
