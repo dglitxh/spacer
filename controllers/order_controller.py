@@ -19,7 +19,12 @@ async def add_order(data: schema.Order) -> schema.Order:
         cart = await rdb.get("cart_key")
         if cart:
             for item in cart:
-                await models.OrderItem.create(**item.dict())
+                o_item = {}
+                o_item["order_id"] = data.id
+                o_item["product_id"] = item.product
+                o_item["quantity"] = item.quantity
+                o_item["total_price"] = item.quantity * item.price
+                await models.OrderItem.create(**item.o_item())
         logger.info("order created succesfully")
         return order
     except Exception as e:
