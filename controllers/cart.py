@@ -28,12 +28,12 @@ class Cart:
         if self.cart[id]:
             self.cart[id].quantity -= item.quantity
         self.total -= item.price * item.quantity
-        await cache_cart()
+        await self.cache_cart()
         return self.cart
 
     async def empty_cart(self) -> None:
         self.cart = {}
-        await cache_cart()
+        await self.cache_cart()
 
     def get_total (self) -> float:
         return self.total
