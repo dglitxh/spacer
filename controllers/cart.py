@@ -21,14 +21,15 @@ class Cart:
             self.cart[id]["quantity"] += quantity
         self.total += item["price"] * quantity
         await self.cache_cart()
-        return self.cart, self.total
+        return self.cart
         
     async def remove_from_cart(self, item) -> None: 
-        id = item.product_id
-        if self.cart[id]:
-            self.cart[id].quantity -= item.quantity
-        self.total -= item.price * item.quantity
-        await self.cache_cart()
+        id = item['id']
+        if id in self.cart:
+            del cart[id]
+            self.total -= item["price"] * quantity
+            await self.cache_cart()
+        else: return
         return self.cart
 
     async def empty_cart(self) -> None:
