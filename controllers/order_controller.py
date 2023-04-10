@@ -24,7 +24,7 @@ async def add_order(data: schema.Order) -> schema.Order:
                 o_item["product_id"] = item.product
                 o_item["quantity"] = item.quantity
                 o_item["total_price"] = item.quantity * item.price
-                await models.OrderItem.create(**item.o_item())
+                await models.OrderItem.create(**o_item.dict())
         logger.info("order created succesfully")
         return order
     except Exception as e:
