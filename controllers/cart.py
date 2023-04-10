@@ -1,11 +1,18 @@
 from common.db import rdb
 import json
+import asyncio
 from common.logger import logger
 
 class Cart: 
     def __init__(self):
         self.cart = {}
         self.total = 0.0
+
+    async def get_cache (self):
+        cart = await rdb.get("cart_key")
+        total = await rdb.get("cart_total")
+        self.cart = dict(json.loads(cart))
+        self.total = float(self.total)
 
     async def cache_cart (self):
         await rdb.set("cart_key", json.dumps(self.cart))
@@ -32,8 +39,9 @@ class Cart:
         else: return
         return self.cart
 
-    async def empty_cart(self) -> None:
+    async def empty_cart(self):
         self.cart = {}
+        self.total = 0.0
         await self.cache_cart()
         return self.cart
 
@@ -41,6 +49,8 @@ class Cart:
         return self.total
 
     def get_cart(self) -> list:
-        return self.cart.values()
+        if self.cart:
+            return [self.cart[x] for x in list(self.cart)]
+        else: return None
 
 cart = Cart()
