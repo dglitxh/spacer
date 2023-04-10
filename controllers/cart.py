@@ -35,6 +35,7 @@ class Cart:
     async def empty_cart(self) -> None:
         self.cart = {}
         await self.cache_cart()
+        return self.cart
 
     def get_total (self) -> float:
         return self.total
