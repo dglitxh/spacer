@@ -4,6 +4,7 @@ import datetime
 import json
 from tortoise.contrib.pydantic import pydantic_model_creator
 from common.db import init_db, rdb
+from controllers.cart import cart
 from common.logger import logger
 from controllers.user_controller import router as auth_router
 from controllers.store_controller import router as store_router
@@ -25,6 +26,10 @@ async def home():
 @app.on_event("startup")
 def database_init():
     init_db(app)
+
+@app.on_event("startup")
+async def cache_the_cart():
+    return await cart.get_cache()
 
 @app.on_event("startup")
 async def ping():
