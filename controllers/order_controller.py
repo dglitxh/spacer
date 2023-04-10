@@ -35,7 +35,7 @@ async def add_order(data: schema.Order) -> schema.Order:
 async def upd_order(data: schema.Order) -> schema.Order:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to create order.",
+                detail="Failed to update order.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
@@ -49,11 +49,11 @@ async def upd_order(data: schema.Order) -> schema.Order:
         raise http_exception
 
 
-@router.get("/{id}/get", summary="Update order.")
+@router.get("/{id}/get", summary="Get order.")
 async def upd_order(id: int) -> schema.Order:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to create order.",
+                detail="Failed to get order.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
@@ -68,7 +68,7 @@ async def upd_order(id: int) -> schema.Order:
 async def get_store_orders(id: int) -> schema.Order:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to create order.",
+                detail="Failed to get store orders.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
@@ -114,7 +114,7 @@ async def get_order_items(id: int) -> schema.Order:
 async def get_orders():
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to get order items.",
+                detail="Failed to get orders.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
