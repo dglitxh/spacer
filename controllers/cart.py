@@ -20,7 +20,8 @@ class Cart:
 
 
     async def add_to_cart(self, item, quantity=1) -> None:
-        id = item['id']
+        print(self.cart)
+        id = str(item['id'])
         if id not in self.cart:
             self.cart[id] = item
             self.cart[id]["quantity"] = quantity
@@ -31,7 +32,7 @@ class Cart:
         return self.cart
         
     async def remove_from_cart(self, item) -> None: 
-        id = item['id']
+        id = str(item['id'])
         if id in self.cart:
             del cart[id]
             self.total -= item["price"] * quantity
