@@ -30,8 +30,8 @@ async def remove_item(item):
 @router.get("/items")
 async def get_items():
     try: 
-        cart = cart.get_cart()
-        return cart
+        mycart = cart.get_cart()
+        return mycart
     except Exception as e:
         logger.error(e)
         return 
@@ -40,6 +40,14 @@ async def get_items():
 async def get_cart_total():
     try: 
         return cart.get_total()
+    except Exception as e:
+        logger.error(e)
+        return
+
+@router.get("/empty")
+async def cart_empty():
+    try:
+        return cart.empty_cart()
     except Exception as e:
         logger.error(e)
         return
