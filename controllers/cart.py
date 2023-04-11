@@ -6,18 +6,14 @@ from common.logger import logger
 class Cart: 
     def __init__(self):
         self.cart = {}
-        self.total = 0.0
 
     async def get_cache (self):
         cart = await rdb.get("cart_key")
         total = await rdb.get("cart_total")
         self.cart = dict(json.loads(cart))
-        self.total = float(self.total)
 
     async def cache_cart (self):
-        await rdb.set("cart_key", json.dumps(self.cart))
-        await rdb.set("total_amount", json.dumps(self.total))
-
+        await rdb.set("cart_key", self.cart)
 
     async def add_to_cart(self, item, quantity=1) -> None:
         print(self.cart)
@@ -27,7 +23,6 @@ class Cart:
             self.cart[id]["quantity"] = quantity
         else: 
             self.cart[id]["quantity"] += quantity
-        self.total += item["price"] * quantity
         await self.cache_cart()
         return self.cart
         
@@ -35,19 +30,20 @@ class Cart:
         id = str(item['id'])
         if id in self.cart:
             del cart[id]
-            self.total -= item["price"] * quantity
             await self.cache_cart()
         else: return
         return self.cart
 
     async def empty_cart(self):
         self.cart = {}
-        self.total = 0.0
         await self.cache_cart()
         return self.cart
-
+ 
     def get_total (self) -> float:
-        return self.total
+        cart = self.get_cart()
+        total = 0.0
+        for i in cart: total += i["quantity"]*i["price"]
+        return total
 
     def get_cart(self) -> list:
         if self.cart:
