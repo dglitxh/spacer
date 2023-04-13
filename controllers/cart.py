@@ -15,12 +15,13 @@ class Cart:
     async def cache_cart (self):
         await rdb.set("cart_key", self.cart)
 
-    async def add_to_cart(self, item, quantity=1) -> None:
+    async def add_to_cart(self, item, quantity=1, repl=False) -> None:
         print(self.cart)
         id = str(item['id'])
         if id not in self.cart:
             self.cart[id] = item
             self.cart[id]["quantity"] = quantity
+        elif(repl): self.cart[id]["quantity"] = quantity
         else: 
             self.cart[id]["quantity"] += quantity
         await self.cache_cart()
