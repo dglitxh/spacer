@@ -12,7 +12,7 @@ router = APIRouter(prefix="/cart")
 async def add_item(item: schema.OrderItem) -> schema.OrderItem:
     try:
         product = await models.Product.get_or_none(id=item.product_id)
-        add = await cart.add_to_cart(dict(product), item.quantity)
+        add = await cart.add_to_cart(dict(product), item.quantity, repl=False)
         return add
     except Exception as e:
         logger.error(e)
