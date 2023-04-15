@@ -42,7 +42,6 @@ class Cart:
  
     def get_total (self) -> float:
         cart = self.get_cart()
-        total = 0.0
         for i in cart: total += i["quantity"]*i["price"]
         return total
 
