@@ -132,7 +132,7 @@ async def forgot_pwd(email: str):
                 <p>Hi !!!
                     <br>Click the link below to change your spacer account password</p>
                 <button>
-                    <a href"">Reset password</a>
+                    <a href={token}>Reset password</a>
                 </button>
             </body>
         </html>
