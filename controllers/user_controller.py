@@ -146,6 +146,7 @@ async def forgot_pwd(email: str):
         user = await models.User.get_or_none(email=creds.email)
         if not user:
             raise http_exception
+        token = await create_access_token(data={"creds": user.email}, expires_delta=timedelta(minutes=5))
         send_mail(template, email)
     except Exception as e:
         logger.error(e)
