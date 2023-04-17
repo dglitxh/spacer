@@ -18,6 +18,7 @@ async def withdraw_from_store(amount: float, id: int):
                 headers={"WWW-Authenticate": "Bearer"},)
     try:
         store = await models.Store.get_or_none(id=id)
+        amount *= 0.98
         if store:
             if amount > store.cash_total:
                 raise http_exception
