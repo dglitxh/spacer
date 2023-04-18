@@ -37,7 +37,7 @@ class Cart:
 
     async def empty_cart(self):
         self.cart = {}
-        await self.cache_cart()
+        await rdb.delete("cart_key")
         return self.cart
  
     def get_total (self) -> float:
