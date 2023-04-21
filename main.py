@@ -6,6 +6,7 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 from common.db import init_db, rdb
 from controllers.cart import cart
 from common.logger import logger
+from controllers.tasks import hello
 from controllers.user_controller import router as auth_router
 from controllers.store_controller import router as store_router
 from controllers.product_controller import router as product_router
@@ -44,5 +45,7 @@ async def ping():
     key = await rdb.get("key")
     key = json.loads(key)
     print(key["PING"])
+    me = hello.delay()
+    return me
 
 logger.info("Spacer is running.")
