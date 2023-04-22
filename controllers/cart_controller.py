@@ -47,7 +47,8 @@ async def get_cart_total():
 @router.get("/empty")
 async def cart_empty():
     try:
-        return cart.empty_cart()
+        empty = await cart.empty_cart()
+        return empty
     except Exception as e:
         logger.error(e)
         return
