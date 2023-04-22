@@ -9,8 +9,7 @@ class Cart:
 
     async def get_cache (self):
         cart = await rdb.get("cart_key")
-        total = await rdb.get("cart_total")
-        self.cart = dict(json.loads(cart))
+        self.cart = dict(json.loads(cart)) if cart else {}
 
     async def cache_cart (self):
         await rdb.set("cart_key", self.cart)
@@ -46,8 +45,6 @@ class Cart:
         return total
 
     def get_cart(self) -> list:
-        if self.cart:
-            return [self.cart[x] for x in list(self.cart)]
-        else: return None
+        return [self.cart[x] for x in list(self.cart)]
 
 cart = Cart()
