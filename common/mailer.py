@@ -1,4 +1,5 @@
 from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
+from .celery import celery
 from dotenv import load_dotenv
 import os
 
@@ -14,6 +15,7 @@ conf = ConnectionConfig(
    MAIL_SSL_TLS=False
 )
 
+@celery.task
 async def send_mail(template: str, email: str):
     try:
         message = MessageSchema(
