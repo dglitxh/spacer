@@ -12,9 +12,9 @@ class Cart:
         self.cart = dict(json.loads(cart)) if cart else {}
 
     async def cache_cart (self):
-        await rdb.set("cart_key", self.cart)
+        await rdb.set("cart_key", json.dumps(self.cart))
 
-    async def add_to_cart(self, item, quantity=1, repl=False) -> None:
+    async def add_to_cart(self, item, quantity=1, repl=False):
         print(self.cart)
         id = str(item['id'])
         if id not in self.cart:
@@ -41,6 +41,7 @@ class Cart:
  
     def get_total (self) -> float:
         cart = self.get_cart()
+        total = 0
         for i in cart: total += i["quantity"]*i["price"]
         return total
 
