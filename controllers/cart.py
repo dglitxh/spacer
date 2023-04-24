@@ -1,6 +1,5 @@
 from common.db import rdb
 import json
-import asyncio
 from common.logger import logger
 
 class Cart: 
