@@ -16,16 +16,16 @@ async def add_item(item: schema.OrderItem) -> schema.OrderItem:
         return add
     except Exception as e:
         logger.error(e)
-        return 
+        return e
 
-@router.delete("/{id}/remove")
+@router.delete("/remove")
 async def remove_item(item):
     try: 
         rem = await cart.remove_from_cart(item)
         return rem
     except Exception as e:
         logger.error(e)
-        return
+        return e
 
 @router.get("/items")
 async def get_items():
@@ -34,15 +34,16 @@ async def get_items():
         return mycart
     except Exception as e:
         logger.error(e)
-        return 
+        return e
 
 @router.get("/total")
 async def get_cart_total():
     try: 
-        return cart.get_total()
+        total =  cart.get_total()
+        return round(total, 2)
     except Exception as e:
         logger.error(e)
-        return
+        return e
 
 @router.get("/empty")
 async def cart_empty():
@@ -51,4 +52,4 @@ async def cart_empty():
         return empty
     except Exception as e:
         logger.error(e)
-        return
+        return e
