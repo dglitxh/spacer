@@ -25,8 +25,8 @@ class Cart:
         await self.cache_cart()
         return self.cart
         
-    async def remove_from_cart(self, item) -> None: 
-        id = str(item['id'])
+    async def remove_from_cart(self, id) -> None: 
+        id = str(id)
         if id in self.cart:
             del self.cart[id]
             await self.cache_cart()
