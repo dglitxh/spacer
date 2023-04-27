@@ -1,11 +1,9 @@
-from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
-from .celery import celery
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 print(os.getenv("MAIL"))
-conf = ConnectionConfig(
+mailer_config = ConnectionConfig(
    MAIL_USERNAME=os.getenv("MAIL"),
    MAIL_PASSWORD=os.getenv("MAILPASS"),
    MAIL_FROM="daboii@m.com",
@@ -15,18 +13,3 @@ conf = ConnectionConfig(
    MAIL_SSL_TLS=False
 )
 
-@celery.task
-async def send_mail(template: str, email: str):
-    try:
-        message = MessageSchema(
-            subject="Fastapi-Mail module",
-            recipients=email,
-            body=template,
-            subtype="html"
-            )
-        fm = FastMail(conf)
-        await fm.send_message(message)
-        print(message)
-    except Exception as e:
-        print(e)
- 
