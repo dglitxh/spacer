@@ -8,7 +8,7 @@ from fastapi import Depends, FastAPI, HTTPException, APIRouter, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from common.db import rdb
-from common.mailer import send_mail
+from controllers.tasks import send_mail
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -147,7 +147,7 @@ async def forgot_pwd(email: str):
         if not user:
             raise http_exception
         token = await create_access_token(data={"creds": user.email}, expires_delta=timedelta(minutes=5))
-        send_mail(template, email)
+        send_mail.delay(template, email)
     except Exception as e:
         logger.error(e)
         raise http_exception
