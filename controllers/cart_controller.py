@@ -21,7 +21,7 @@ async def add_item(item: schema.OrderItem) -> schema.OrderItem:
 @router.post("/remove")
 async def remove_item(item: schema.OrderItem):
     try:
-        rem = await cart.remove_from_cart(str(item.id))
+        rem = await cart.remove_from_cart(str(item.product_id))
         return rem
     except Exception as e:
         logger.error(e)
