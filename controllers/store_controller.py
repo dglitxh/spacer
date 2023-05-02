@@ -109,7 +109,7 @@ async def upd_store(amt: float, id: int) -> schema.Store:
             )
     try:
         store = await models.Store.get_or_none(id=id)
-        store.cash_total = amt
+        store.cash_total += amt
         store.update_from_dict(data.dict(exclude_unset=True))
         await store.save()
         logger.info("store updated succesfully")
