@@ -126,17 +126,7 @@ async def login(creds: schema.Login) -> schema.ClientUser:
        
 @router.post("/forgot", summary="Authenticate user")
 async def forgot_pwd(email: str):
-    template = f"\
-        <html>\
-            <body>\
-                <p>Hi !!!\
-                    <br>Click the link below to change your spacer account password</p>\
-                <button>\
-                    <a href={link}>Reset password</a>\
-                </button>\
-            </body>\
-        </html>\
-        "
+    
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="failed to send reset link",
@@ -147,6 +137,17 @@ async def forgot_pwd(email: str):
         if not user:
             raise http_exception
         token = await create_access_token(data={"creds": user.email}, expires_delta=timedelta(minutes=5))
+        template = f"\
+        <html>\
+            <body>\
+                <p>Hi !!!\
+                    <br>Click the link below to change your spacer account password</p>\
+                <button>\
+                    <a href=home/auth/upd_pass/{token}>Reset password</a>\
+                </button>\
+            </body>\
+        </html>\
+        "
         send_mail.delay(template, email)
     except Exception as e:
         logger.error(e)
