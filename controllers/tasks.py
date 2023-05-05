@@ -18,6 +18,7 @@ async def send_mail(template: str, email: str):
         fm = FastMail(mailer_config)
         await fm.send_message(message)
         print(message)
+        return "email sent."
     except Exception as e:
         print(e)
  
