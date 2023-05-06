@@ -32,6 +32,7 @@ def database_init():
 
 @app.on_event("startup")
 async def get_cart_cache():
+    print("checking cache for cart.")
     return await cart.get_cache()
 
 @app.on_event("startup")
