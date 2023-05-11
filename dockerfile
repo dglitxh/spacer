@@ -11,3 +11,11 @@ COPY . .
 RUN uvicorn main:app 
 
 CMD ["python3", "-m", "uvicorn", "run", "--host=0.0.0.0"]
+
+FROM alpine
+
+WORKDIR /
+
+EXPOSE 8080
+
+ENTRYPOINT ["/patiently"]
