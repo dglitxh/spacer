@@ -30,8 +30,7 @@ async def remove_item(item: schema.OrderItem):
 @router.get("/items")
 async def get_items():
     try: 
-        mycart = cart.get_cart()
-        return mycart
+        return cart.get_cart()
     except Exception as e:
         logger.error(e)
         return e
@@ -39,7 +38,7 @@ async def get_items():
 @router.get("/total")
 async def get_cart_total():
     try: 
-        total =  cart.get_total()
+        total = cart.get_total()
         return round(total, 2)
     except Exception as e:
         logger.error(e)
