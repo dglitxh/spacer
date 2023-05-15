@@ -4,6 +4,8 @@ from fastapi.testclient import TestClient
 from common.logger import logger
 from common.db import rdb
 
+client = TestClient(app)
+
 prod = {
     "name": "Big Clothing", 
     "description": "This is just a piece of clothing",
