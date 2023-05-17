@@ -48,3 +48,18 @@ def test_get_prod():
     json = response.json()
     logger.info(json)
     assert response.status_code == 200
+
+
+
+def test_create_store():
+    response =  client.post("/products/new", json=store)
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
+    assert json == store
+
+def test_get_prod():
+    response = client.get("/products/2/get")
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
