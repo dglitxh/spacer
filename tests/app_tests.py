@@ -36,8 +36,15 @@ def test_get_prod():
     logger.info(json)
     assert response.status_code == 200
 
+def test_del_prod():
+    response = client.delete("/products/2/delete")
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
+
 def test_get_prod():
-    response = client.get("/products/2/delete")
+    prod["name"] = "upded clothing"
+    response = client.post("/products/2/delete", json=prod)
     json = response.json()
     logger.info(json)
     assert response.status_code == 200
