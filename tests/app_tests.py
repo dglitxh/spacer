@@ -52,14 +52,14 @@ def test_upd_prod():
 
 
 def test_create_store():
-    response =  client.post("/products/new", json=store)
+    response =  client.post("/stores/new", json=store)
     json = response.json()
     logger.info(json)
     assert response.status_code == 200
     assert json == store
 
 def test_get_store():
-    response = client.get("/products/2/get")
+    response = client.get("/stores/2/get")
     json = response.json()
     logger.info(json)
     assert response.status_code == 200
