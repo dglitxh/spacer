@@ -70,3 +70,9 @@ def test_del_store():
     logger.info(json)
     assert response.status_code == 200
 
+def test_store_prods():
+    response = client.get("/stores/2/products")
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
+
