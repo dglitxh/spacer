@@ -76,3 +76,8 @@ def test_store_prods():
     logger.info(json)
     assert response.status_code == 200
 
+def test_addcart():
+    response = client.get("/cart/add")
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
