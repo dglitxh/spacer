@@ -23,6 +23,12 @@ store = {
     "owner_id": 1
 }
 
+cart = {
+    "product_id": 3,
+    "quantity": 4,
+    "total_price": 0
+}
+
 def test_create_prod():
     response =  client.post("/products/new", json=prod)
     json = response.json()
@@ -76,8 +82,20 @@ def test_store_prods():
     logger.info(json)
     assert response.status_code == 200
 
-def test_addcart():
-    response = client.get("/cart/add")
+def test_add_to_cart():
+    response = client.post("/cart/add", json=cart)
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
+
+def test_rem_from_cart():
+    response = client.get("cart/remove")
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
+
+def test_empty_cart ():
+    response = client.get("cart/empty")
     json = response.json()
     logger.info(json)
     assert response.status_code == 200
