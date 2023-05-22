@@ -89,13 +89,19 @@ def test_add_to_cart():
     assert response.status_code == 200
 
 def test_rem_from_cart():
-    response = client.get("cart/remove")
+    response = client.get("/cart/remove")
     json = response.json()
     logger.info(json)
     assert response.status_code == 200
 
 def test_empty_cart ():
-    response = client.get("cart/empty")
+    response = client.get("/cart/empty")
+    json = response.json()
+    logger.info(json)
+    assert response.status_code == 200
+
+def test_get_cart ():
+    response = client.get("/cart/get")
     json = response.json()
     logger.info(json)
     assert response.status_code == 200
