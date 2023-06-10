@@ -96,7 +96,7 @@ async def delete_order(id: int) -> schema.Order:
         logger.error(e)
         raise http_exception
 
-@router.get("/{id}/get_items", summary="delete order")
+@router.get("/{id}/get_items", summary="get order items")
 async def get_order_items(id: int) -> schema.Order:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
