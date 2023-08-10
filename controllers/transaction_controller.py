@@ -10,7 +10,7 @@ from .cart import cart
 
 router = APIRouter(prefix="/transactions")
 
-@router.post("stores/{id}/withdraw")
+@router.post("/stores/{id}/withdraw")
 async def withdraw_from_store(amount: float, id: int):
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -31,7 +31,7 @@ async def withdraw_from_store(amount: float, id: int):
         logger.error(e)
         return
 
-@router.get("orders/{id}/payment")
+@router.get("/orders/{id}/payment")
 async def pay_order(id: int):
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
