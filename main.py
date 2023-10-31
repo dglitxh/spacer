@@ -3,6 +3,7 @@ from fastapi import FastAPI
 import datetime
 import json
 from tortoise.contrib.pydantic import pydantic_model_creator
+from fastapi.middleware.cors import CORSMiddleware
 from common.db import init_db, rdb
 from controllers.cart import cart
 from common.logger import logger
@@ -21,6 +22,18 @@ app.include_router(product_router)
 app.include_router(cart_router)
 app.include_router(trans_router)
 app.include_router(order_router)
+
+origins = [
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 @app.get("/")
 async def home():
