@@ -70,11 +70,11 @@ async def delete_store(id: int) -> schema.Store:
         logger.error(e)
         raise http_exception
 
-@router.get("/{st_id}/products", summary="Create a product.")
-async def get_store_products(data: schema.Product, st_id: int) -> schema.Product:
+@router.get("/{st_id}/products", summary="get store products.")
+async def get_store_products(st_id: int) -> schema.Product:
     http_exception = HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to create store.",
+                detail="Failed to get store products.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
     try:
