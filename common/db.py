@@ -7,6 +7,7 @@ from tortoise.contrib.fastapi import register_tortoise
 
 load_dotenv()
 db = os.getenv("DB_URL") 
+rds_url = os.getenv("RDS_URL")
 
 TORTOISE_ORM = {
     "connections": {"default": db},
@@ -33,7 +34,7 @@ def init_db(app):
 
 def init_rdb():
     try:
-        r = redis.Redis(host='localhost', port=6379, db=0)
+        r = redis.Redis(host=rds_url , port=6379, db=0)
         return r
     except Exception as e:
         logger.error("Redis failed to start...")
