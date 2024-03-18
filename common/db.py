@@ -34,7 +34,7 @@ def init_db(app):
 
 def init_rdb():
     try:
-        r = redis.Redis(host=rds_url,port=6379, decode_responses=True )
+        r = redis.from_url(rds_url)
         return r
     except Exception as e:
         logger.error("Redis failed to start...")
