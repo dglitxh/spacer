@@ -6,7 +6,7 @@ from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
 def hello():
     return "Ydeezzy"
 
-@celery.task
+
 async def send_mail(template: str, email: str):
     try:
         message = MessageSchema(
