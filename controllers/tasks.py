@@ -1,8 +1,8 @@
-from common.celery import celery
+# from common.celery import celery
 from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
 
 
-@celery.task
+# @celery.task
 def hello():
     return "Ydeezzy"
 
