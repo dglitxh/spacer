@@ -148,7 +148,7 @@ async def forgot_pwd(email: str):
             </body>\
         </html>\
         "
-        send_mail.delay(template, email)
+        send_mail(template, email)
     except Exception as e:
         logger.error(e)
         raise http_exception

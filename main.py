@@ -25,6 +25,7 @@ app.include_router(order_router)
 
 origins = [
     "http://localhost:3000"
+    "https://shopspaces.vercel.app"
 ]
 
 app.add_middleware(
@@ -59,7 +60,5 @@ async def ping():
     key = await rdb.get("key")
     key = json.loads(key)
     print(key["PING"])
-    me = hello.delay()
-    return me
 
 logger.info("Spacer is running.")
